@@ -93,10 +93,53 @@ idf.py build flash
 	
 Edit the filter settings in ```Biquad.h``` to customize the DSP behavior:
 
-#define FILTER_TYPE PEAK       // Options: LOW_PASS, HIGH_PASS, BAND_PASS, NOTCH, PEAK, LOW_SHELF, HIGH_SHELF
-#define FREQUENCY 1000         // Hz
-#define GAIN 6                 // dB (for PEAK, LOW_SHELF, HIGH_SHELF)
-#define Q_FACTOR 1.0           // Quality factor
+In this array you need to specify the type of filter. PK , LP , HP and so on. In this case 6 PK - (PEAK FILTERS ) are set.
+```C++
+int type_filters[] = { PK      
+                      ,PK
+                      ,PK
+                      ,PK
+                      ,PK
+                      ,PK
+          
+};
+```
+Here you set the filter frequency.
+```C++
+double Hz[] = { 72.50
+              , 120.0
+              , 224.0
+              , 352.0  
+              , 1279.0
+              , 38.0
+         
+	
+};
+```
+Here we set the gain in decibels.
+```C++
+double dB[] = { -4.80
+              , -4.10
+              , -2.80
+              , -4.60
+              , -3.30
+              ,  10.0
+            
+};
+```
+And finally the Q of the filter.
+```C++
+double Qd[] = { 5.000
+              , 5.000
+              , 5.000
+              , 3.066
+              , 1.000
+              , 7.0
+              
+};
+}
+```
+
 
 
 Future Enhancements
