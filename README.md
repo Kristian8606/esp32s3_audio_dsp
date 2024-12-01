@@ -70,11 +70,11 @@ Wire all components according to the Hardware Connections section.
 	•	Install ESP-IDF 
 	•	Clone the repository in the i2s examples directory of the ESP-IDF:
 
-git clone https://github.com/Kristian8606/ESP32_DSP.git
+	•	git clone https://github.com/Kristian8606/ESP32_DSP.git
 
-	•	cd ESP32_DSP Build and flash the ESP32 firmware:
+cd ESP32_DSP Build and flash the ESP32 firmware:
 
-idf.py build flash
+	•	idf.py build flash
 
 
 	3.	Configure Filters
