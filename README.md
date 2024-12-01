@@ -67,10 +67,10 @@ Setup Instructions
 	1.	Connect Hardware
 Wire all components according to the Hardware Connections section.
 	2.	Install Software
-	•	Install ESP-IDF or Arduino IDE.
-	•	Clone the repository:
+	•	Install ESP-IDF 
+	•	Clone the repository in the i2s examples directory of the ESP-IDF:
 
-git clone [https://github.com/your-repo/ESP32_DSP](https://github.com/Kristian8606/ESP32_DSP).git
+git clone [(https://github.com/Kristian8606/ESP32_DSP)].git
 cd ESP32_DSP
 
 
