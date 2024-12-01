@@ -9,13 +9,13 @@ Project Overview
 
 This project demonstrates the use of the ESP32 as a Digital Signal Processor (DSP) for real-time audio processing. The system receives a digital audio signal from the DIR9001, processes it on the ESP32 using various filter types, including low-pass, high-pass, band-pass, notch, peak, low shelf, and high shelf filters, and outputs the processed data to the TDA1387, which converts it to an analog signal.
 
-System Architecture
+# System Architecture
 
-# DIR9001:
+ • DIR9001:
 A digital audio receiver that converts S/PDIF input into I2S output. It serves as the audio source and clock synchronizer.
-	•	ESP32:
+ • ESP32:
 The core DSP processor that receives the I2S signal from the DIR9001, applies a variety of digital filters, and sends the processed audio back as I2S.
-	•	TDA1387:
+ • TDA1387:
 A high-quality Digital-to-Analog Converter (DAC) that transforms the processed digital audio into an analog signal for playback.
 
 Features
