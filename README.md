@@ -76,7 +76,7 @@ Setup Instructions
 
 Wire all components according to the Hardware Connections section.
 
-	2.	Install Software
+    2.	Install Software
 
 *	Install ESP-IDF https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html#esp-idf-programming-guide
 *	Clone the repository in the i2s examples directory of the ESP-IDF:
@@ -89,7 +89,7 @@ Build and flash the ESP32 firmware:
 	idf.py build flash
 
 
-3.	Configure Filters
+    3.	Configure Filters
 	
 Edit the filter settings in Biquad.h to customize the DSP behavior:
 
