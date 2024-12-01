@@ -2,7 +2,7 @@
 # ESP32 DSP
 ![6884FAFA-050E-4CCE-93F6-6EF75651843B](https://github.com/user-attachments/assets/f2c9d4b0-3d23-4239-8961-3bb2ab004d40)
 
-# ESP32_DSP
+## ESP32_DSP
 
 Audio Processing with DIR9001 and TDA1387
 
@@ -23,7 +23,7 @@ The core DSP processor that applies various digital filters to the audio signal 
 
 A high-quality Digital-to-Analog Converter (DAC) that transforms the processed digital signal into an analog audio output.
 
-# Features
+## Features
 
 	Real-Time DSP:
 Real-time audio signal processing on the ESP32.
@@ -37,7 +37,7 @@ The system supports multiple filter types, including:
 *	Peak Filter: Boosts or attenuates a specific frequency with adjustable Q-factor.
 *	Low Shelf Filter: Boosts or cuts frequencies below a set threshold.
 *	High Shelf Filter: Boosts or cuts frequencies above a set threshold.
-# Configurable Parameters:
+## Configurable Parameters:
 Filters can be customized with the following parameters:
 *	Center or cutoff frequency
 *	Gain (boost or cut)
@@ -80,17 +80,15 @@ Wire all components according to the Hardware Connections section.
 
 *	Install ESP-IDF https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html#esp-idf-programming-guide
 *	Clone the repository in the i2s examples directory of the ESP-IDF:
+*	Build and flash the ESP32 firmware:
 
 		git clone https://github.com/Kristian8606/ESP32_DSP.git
 		cd ESP32_DSP
+ 		idf.py build flash
+    
 
-Build and flash the ESP32 firmware:
 
-    ```
-    idf.py build flash
-    ```
- 
-    3.	Configure Filters
+    3.  Configure Filters
 	
 Edit the filter settings in Biquad.h to customize the DSP behavior:
 
