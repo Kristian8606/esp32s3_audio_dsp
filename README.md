@@ -88,12 +88,11 @@ cd ESP32_DSP
 idf.py build flash
 ```  
 
-
-    3.  Configure Filters
+## Configure Filters
 	
 Edit the filter settings in ```Biquad.h``` to customize the DSP behavior:
 
-In this array you need to specify the type of filter. PK , LP , HP and so on. In this case 6 PK - (PEAK FILTERS ) are set.
+In this array you need to specify the type of filter. PK , LP , HP and so on. In this case 6 filters PK - (PEAK FILTERS ) are set.
 ```C++
 int type_filters[] = { PK      
                       ,PK
