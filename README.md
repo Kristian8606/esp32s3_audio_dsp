@@ -70,7 +70,7 @@ Wire all components according to the Hardware Connections section.
 	•	Install ESP-IDF 
 	•	Clone the repository in the i2s examples directory of the ESP-IDF:
 
-git clone [(https://github.com/Kristian8606/ESP32_DSP)].git
+git clone (https://github.com/Kristian8606/ESP32_DSP).git
 cd ESP32_DSP
 
 
