@@ -86,7 +86,9 @@ Wire all components according to the Hardware Connections section.
 
 Build and flash the ESP32 firmware:
 
-'idf.py build flash'
+    ```
+    idf.py build flash
+    ```
  
     3.	Configure Filters
 	
