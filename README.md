@@ -93,10 +93,9 @@ Applications
 
 Future Enhancements
 
-	•	Add support for multiple simultaneous filters.
 	•	Implement audio effects like reverb or delay.
 	•	Create a Bluetooth or Wi-Fi interface for real-time parameter adjustments.
-	•	Extend functionality to support multi-channel audio.
+	•	Extended functionality to support multi-channel audio via additional ESP32s for tri-amping.
 
 License
 
