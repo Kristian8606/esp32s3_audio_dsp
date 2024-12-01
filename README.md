@@ -37,18 +37,20 @@ The system supports multiple filter types, including:
 *	Peak Filter: Boosts or attenuates a specific frequency with adjustable Q-factor.
 *	Low Shelf Filter: Boosts or cuts frequencies below a set threshold.
 *	High Shelf Filter: Boosts or cuts frequencies above a set threshold.
-*	Configurable Parameters:
+# Configurable Parameters:
 Filters can be customized with the following parameters:
 *	Center or cutoff frequency
 *	Gain (boost or cut)
 *	Q-factor (bandwidth control)
 	
-How It Works
+How It Works?
 
 	1.	Audio Input:
 The DIR9001 receives a digital audio signal (S/PDIF) and converts it to I2S.
-	2.	DSP Processing:
+
+    2.	DSP Processing:
 The ESP32 processes the audio using the configured filters and applies real-time DSP algorithms.
+
 	3.	Audio Output:
 The TDA1387 converts the processed I2S audio data into an analog signal, ready for playback through headphones or speakers.
 
@@ -66,40 +68,41 @@ Hardware Connections
 *	ESP32 I2S Output → TDA1387 I2S Input
 *	TDA1387 Analog Output → Amplifier or Headphones
 
+//TODO add schematics.
+
 Setup Instructions
 
     1.	Connect Hardware
+
 Wire all components according to the Hardware Connections section.
+
 	2.	Install Software
-*	Install ESP-IDF 
+
+*	Install ESP-IDF https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html#esp-idf-programming-guide
 *	Clone the repository in the i2s examples directory of the ESP-IDF:
 
 		git clone https://github.com/Kristian8606/ESP32_DSP.git
+		cd ESP32_DSP
 
-cd ESP32_DSP Build and flash the ESP32 firmware:
+Build and flash the ESP32 firmware:
 
-		idf.py build flash
+	idf.py build flash
 
 
 3.	Configure Filters
-Edit the filter settings in filter_config.h to customize the DSP behavior:
+Edit the filter settings in Biquad.h to customize the DSP behavior:
 
 #define FILTER_TYPE PEAK       // Options: LOW_PASS, HIGH_PASS, BAND_PASS, NOTCH, PEAK, LOW_SHELF, HIGH_SHELF
 #define FREQUENCY 1000         // Hz
 #define GAIN 6                 // dB (for PEAK, LOW_SHELF, HIGH_SHELF)
 #define Q_FACTOR 1.0           // Quality factor
 
-Applications
-
-	•	Audio equalization and tuning
-	•	Sound enhancement and filtering
-	•	Real-time experimentation with DSP algorithms
 
 Future Enhancements
 
-	•	Implement audio effects like reverb or delay.
-	•	Create a Bluetooth or Wi-Fi interface for real-time parameter adjustments.
-	•	Extended functionality to support multi-channel audio via additional ESP32s for tri-amping.
+*	Implement audio effects like reverb or delay.
+*	Create a Bluetooth or Wi-Fi interface for real-time parameter adjustments.
+*	Extended functionality to support multi-channel audio via additional ESP32s for tri-amping.
 
 License
 
