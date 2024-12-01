@@ -86,9 +86,8 @@ Wire all components according to the Hardware Connections section.
 
 Build and flash the ESP32 firmware:
 
-	idf.py build flash
-
-
+'idf.py build flash'
+ 
     3.	Configure Filters
 	
 Edit the filter settings in Biquad.h to customize the DSP behavior:
