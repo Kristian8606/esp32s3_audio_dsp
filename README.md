@@ -1,3 +1,4 @@
+
 # ESP32 DSP
 ![6884FAFA-050E-4CCE-93F6-6EF75651843B](https://github.com/user-attachments/assets/f2c9d4b0-3d23-4239-8961-3bb2ab004d40)
 
@@ -11,32 +12,36 @@ ESP32_DSP is a project that uses the ESP32 as a Digital Signal Processor (DSP) f
 
 System Architecture
 
-	•	DIR9001:
+	DIR9001:
 A digital audio receiver that converts S/PDIF input into I2S output. It serves as the audio source and clock synchronizer.
-	•	ESP32:
+
+    ESP32:
+
 The core DSP processor that applies various digital filters to the audio signal and outputs it as I2S.
-	•	TDA1387:
+
+    TDA1387:
+
 A high-quality Digital-to-Analog Converter (DAC) that transforms the processed digital signal into an analog audio output.
 
-Features
+# Features
 
-	•	Real-Time DSP:
+	Real-Time DSP:
 Real-time audio signal processing on the ESP32.
-	•	Filter Options:
+* Filter Options:
 The system supports multiple filter types, including:
 
-	*	Low-Pass Filter: Attenuates frequencies above the cutoff frequency.
-	•	High-Pass Filter: Attenuates frequencies below the cutoff frequency.
-	•	Band-Pass Filter: Passes frequencies within a specific range.
-	•	Notch Filter: Removes a narrow frequency band.
-	•	Peak Filter: Boosts or attenuates a specific frequency with adjustable Q-factor.
-	•	Low Shelf Filter: Boosts or cuts frequencies below a set threshold.
-	•	High Shelf Filter: Boosts or cuts frequencies above a set threshold.
-	•	Configurable Parameters:
+*	Low-Pass Filter: Attenuates frequencies above the cutoff frequency.
+*	High-Pass Filter: Attenuates frequencies below the cutoff frequency.
+*	Band-Pass Filter: Passes frequencies within a specific range.
+*	Notch Filter: Removes a narrow frequency band.
+*	Peak Filter: Boosts or attenuates a specific frequency with adjustable Q-factor.
+*	Low Shelf Filter: Boosts or cuts frequencies below a set threshold.
+*	High Shelf Filter: Boosts or cuts frequencies above a set threshold.
+*	Configurable Parameters:
 Filters can be customized with the following parameters:
-	•	Center or cutoff frequency
-	•	Gain (boost or cut)
-	•	Q-factor (bandwidth control)
+*	Center or cutoff frequency
+*	Gain (boost or cut)
+*	Q-factor (bandwidth control)
 	
 How It Works
 
@@ -49,25 +54,25 @@ The TDA1387 converts the processed I2S audio data into an analog signal, ready f
 
 Hardware Components
 
-	•	ESP32 microcontroller
-	•	DIR9001 Digital Audio Receiver
-	•	TDA1387 DAC
-	•	Audio Input: S/PDIF source
-	•	Audio Output: Amplifier or headphones
+*	ESP32 microcontroller
+*	DIR9001 Digital Audio Receiver
+*	TDA1387 DAC
+*	Audio Input: S/PDIF source
+*	Audio Output: Amplifier or headphones
 
 Hardware Connections
 
-	•	DIR9001 I2S Output → ESP32 I2S Input
-	•	ESP32 I2S Output → TDA1387 I2S Input
-	•	TDA1387 Analog Output → Amplifier or Headphones
+*	DIR9001 I2S Output → ESP32 I2S Input
+*	ESP32 I2S Output → TDA1387 I2S Input
+*	TDA1387 Analog Output → Amplifier or Headphones
 
 Setup Instructions
 
-	1.	Connect Hardware
+    1.	Connect Hardware
 Wire all components according to the Hardware Connections section.
 	2.	Install Software
-	•	Install ESP-IDF 
-	•	Clone the repository in the i2s examples directory of the ESP-IDF:
+*	Install ESP-IDF 
+*	Clone the repository in the i2s examples directory of the ESP-IDF:
 
 		git clone https://github.com/Kristian8606/ESP32_DSP.git
 
