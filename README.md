@@ -11,7 +11,7 @@ This project demonstrates the use of the ESP32 as a Digital Signal Processor (DS
 
 System Architecture
 
-	•	DIR9001:
+# DIR9001:
 A digital audio receiver that converts S/PDIF input into I2S output. It serves as the audio source and clock synchronizer.
 	•	ESP32:
 The core DSP processor that receives the I2S signal from the DIR9001, applies a variety of digital filters, and sends the processed audio back as I2S.
