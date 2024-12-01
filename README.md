@@ -90,6 +90,7 @@ Build and flash the ESP32 firmware:
 
 
 3.	Configure Filters
+	
 Edit the filter settings in Biquad.h to customize the DSP behavior:
 
 #define FILTER_TYPE PEAK       // Options: LOW_PASS, HIGH_PASS, BAND_PASS, NOTCH, PEAK, LOW_SHELF, HIGH_SHELF
