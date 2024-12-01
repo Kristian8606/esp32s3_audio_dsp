@@ -25,7 +25,7 @@ Real-time audio signal processing on the ESP32.
 	•	Filter Options:
 The system supports multiple filter types, including:
 
-	•	Low-Pass Filter: Attenuates frequencies above the cutoff frequency.
+	*	Low-Pass Filter: Attenuates frequencies above the cutoff frequency.
 	•	High-Pass Filter: Attenuates frequencies below the cutoff frequency.
 	•	Band-Pass Filter: Passes frequencies within a specific range.
 	•	Notch Filter: Removes a narrow frequency band.
