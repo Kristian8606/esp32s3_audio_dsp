@@ -24,6 +24,7 @@ Features
 Real-time audio signal processing on the ESP32.
 	•	Filter Options:
 The system supports multiple filter types, including:
+
 	•	Low-Pass Filter: Attenuates frequencies above the cutoff frequency.
 	•	High-Pass Filter: Attenuates frequencies below the cutoff frequency.
 	•	Band-Pass Filter: Passes frequencies within a specific range.
@@ -36,9 +37,7 @@ Filters can be customized with the following parameters:
 	•	Center or cutoff frequency
 	•	Gain (boost or cut)
 	•	Q-factor (bandwidth control)
-	•	Modular and Scalable:
-New DSP functions and filters can be easily integrated into the system.
-
+	
 How It Works
 
 	1.	Audio Input:
