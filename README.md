@@ -77,7 +77,7 @@ cd ESP32_DSP Build and flash the ESP32 firmware:
 		idf.py build flash
 
 
-	3.	Configure Filters
+3.	Configure Filters
 Edit the filter settings in filter_config.h to customize the DSP behavior:
 
 #define FILTER_TYPE PEAK       // Options: LOW_PASS, HIGH_PASS, BAND_PASS, NOTCH, PEAK, LOW_SHELF, HIGH_SHELF
