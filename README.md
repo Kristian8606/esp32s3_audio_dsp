@@ -10,7 +10,7 @@ Project Overview
 
 ESP32_DSP is a project that uses the ESP32 as a Digital Signal Processor (DSP) for real-time audio processing. The system takes digital audio input from a DIR9001, processes it on the ESP32 using various filters (e.g., low-pass, high-pass, band-pass, notch, peak, low shelf, and high shelf filters), and sends the processed data to a TDA1387, which outputs an analog audio signal.
 
-System Architecture
+## System Architecture
 
 	DIR9001:
 A digital audio receiver that converts S/PDIF input into I2S output. It serves as the audio source and clock synchronizer.
@@ -43,7 +43,7 @@ Filters can be customized with the following parameters:
 *	Gain (boost or cut)
 *	Q-factor (bandwidth control)
 	
-How It Works?
+## How It Works?
 
 	1.	Audio Input:
 The DIR9001 receives a digital audio signal (S/PDIF) and converts it to I2S.
@@ -80,17 +80,18 @@ Wire all components according to the Hardware Connections section.
 
 *	Install ESP-IDF https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html#esp-idf-programming-guide
 *	Clone the repository in the i2s examples directory of the ESP-IDF:
-*	Build and flash the ESP32 firmware:
 
-		git clone https://github.com/Kristian8606/ESP32_DSP.git
-		cd ESP32_DSP
- 		idf.py build flash
-    
+*	Build and flash the ESP32 firmware:
+```
+git clone https://github.com/Kristian8606/ESP32_DSP.git
+cd ESP32_DSP
+idf.py build flash
+```  
 
 
     3.  Configure Filters
 	
-Edit the filter settings in Biquad.h to customize the DSP behavior:
+Edit the filter settings in ```Biquad.h``` to customize the DSP behavior:
 
 #define FILTER_TYPE PEAK       // Options: LOW_PASS, HIGH_PASS, BAND_PASS, NOTCH, PEAK, LOW_SHELF, HIGH_SHELF
 #define FREQUENCY 1000         // Hz
