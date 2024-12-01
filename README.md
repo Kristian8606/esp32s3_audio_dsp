@@ -19,7 +19,7 @@ A digital audio receiver that converts S/PDIF input into I2S output. It serves a
 
 The core DSP processor that applies various digital filters to the audio signal and outputs it as I2S.
 
-    TDA1387:
+    TDA1387x8:
 
 A high-quality Digital-to-Analog Converter (DAC) that transforms the processed digital signal into an analog audio output.
 
