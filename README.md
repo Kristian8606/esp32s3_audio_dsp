@@ -5,6 +5,7 @@
 ## ESP32_DSP
 
 [Configure Filters](https://github.com/Kristian8606/ESP32_DSP/blob/main/README.md#configure-filters)
+[Screenshots](https://github.com/Kristian8606/ESP32_DSP/blob/main/README.md#screenshots)
 
 ## Audio Processing with DIR9001 and TDA1387
 
@@ -148,8 +149,19 @@ double Qd[] = { 5.000
 *	Create a Bluetooth or Wi-Fi interface for real-time parameter adjustments.
 *	Extended functionality to support multi-channel audio via additional ESP32s for tri-amping.
   
-## Skreenshots
-<img width="1321" alt="Screenshot 2024-11-28 at 18 26 12" src="https://github.com/user-attachments/assets/71fc9a93-95c7-4b52-bb3c-eb12df995fd0">
+## Screenshots
+<img width="1417" alt="Screenshot 2024-11-28 at 16 16 48" src="https://github.com/user-attachments/assets/ba402a28-14ff-4e4b-aa78-98278b97d198">
+<img width="1417" alt="Screenshot 2024-11-28 at 16 18 41" src="https://github.com/user-attachments/assets/08b96763-12d4-44a9-9ee3-b027bddd6cd2">
+<img width="1321" alt="Screenshot 2024-11-28 at 16 35 36" src="https://github.com/user-attachments/assets/47f28925-d872-4cef-95e0-a613939db80c">
+<img width="1321" alt="Screenshot 2024-11-28 at 16 34 42" src="https://github.com/user-attachments/assets/b4fa74fa-b4d4-46bf-ac98-1a26cf41fadc">
+<img width="1321" alt="Screenshot 2024-11-28 at 16 32 21" src="https://github.com/user-attachments/assets/0985f260-83aa-4a5e-b48e-248b28e63498">
+<img width="1321" alt="Screenshot 2024-11-28 at 16 27 04" src="https://github.com/user-attachments/assets/c76c76ec-a36e-461f-a4e6-c05a1bab222a">
+<img width="1143" alt="Screenshot 2024-11-28 at 16 24 18" src="https://github.com/user-attachments/assets/4557e177-66c2-4c8f-add0-feab63a3eb60">
+<img width="1143" alt="Screenshot 2024-11-28 at 16 24 00" src="https://github.com/user-attachments/assets/9e6cfa27-88a2-4cf0-a335-112577ce6d07">
+<img width="1417" alt="Screenshot 2024-11-28 at 16 18 57" src="https://github.com/user-attachments/assets/d46281c0-d5c8-4189-a48c-2340f884cd4d">
+<img width="1321" alt="Screenshot 2024-11-28 at 16 37 57" src="https://github.com/user-attachments/assets/0e9f059d-7686-44f6-b666-0298600b704a">
+<img width="1321" alt="Screenshot 2024-11-28 at 18 26 12" src="https://github.com/user-attachments/assets/90fd3f53-0efa-447a-a56e-7ccb9a71229c">
+<img width="1321" alt="Screenshot 2024-11-28 at 18 26 30" src="https://github.com/user-attachments/assets/2f31f332-6469-462e-922c-4787cf521012">
 
 
 ## License
