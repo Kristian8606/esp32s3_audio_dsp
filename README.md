@@ -147,6 +147,10 @@ double Qd[] = { 5.000
 *	Implement audio effects like reverb or delay.
 *	Create a Bluetooth or Wi-Fi interface for real-time parameter adjustments.
 *	Extended functionality to support multi-channel audio via additional ESP32s for tri-amping.
+  
+## Skreenshots
+<img width="1321" alt="Screenshot 2024-11-28 at 18 26 12" src="https://github.com/user-attachments/assets/71fc9a93-95c7-4b52-bb3c-eb12df995fd0">
+
 
 ## License
 
