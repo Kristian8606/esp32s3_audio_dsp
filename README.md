@@ -5,6 +5,7 @@
 ## ESP32_DSP
 
 [Configure Filters](https://github.com/Kristian8606/ESP32_DSP/blob/main/README.md#configure-filters)
+
 [Screenshots](https://github.com/Kristian8606/ESP32_DSP/blob/main/README.md#screenshots)
 
 ## Audio Processing with DIR9001 and TDA1387
