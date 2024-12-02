@@ -148,6 +148,6 @@ double Qd[] = { 5.000
 *	Create a Bluetooth or Wi-Fi interface for real-time parameter adjustments.
 *	Extended functionality to support multi-channel audio via additional ESP32s for tri-amping.
 
-License
+## License
 
 This project is licensed under the GPL-3.0 License. See the LICENSE file for more details.

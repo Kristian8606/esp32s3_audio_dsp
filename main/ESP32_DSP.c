@@ -84,17 +84,7 @@ void init_i2s(void) {
     ESP_ERROR_CHECK(i2s_channel_enable(rx_chan));
 
 }
-/*
-void process_data_stereo(int32_t *data, size_t num_samples) {
-    for (size_t i = 0; i < num_samples; i += 2) {
-        // Ляв канал
-        data[i] = data[i] * 0.9;  // Намаляване на амплитудата с 10%
 
-        // Десен канал
-        data[i + 1] = data[i + 1] * 0.9;  // Намаляване на амплитудата с 10%
-    }
-}
-*/
 void app_main(void) {
 	init_i2s();
         create_biquad();
@@ -118,13 +108,7 @@ void app_main(void) {
 		
 			process_data_stereo(data, bytes_read / sizeof(int32_t));
             // Писане на данни в I2S (към TDA1387)
-            esp_err_t write_ret = i2s_channel_write(tx_chan, data, RINGBUF_SIZE, &bytes_read, portMAX_DELAY);
-            
-
-            // Освобождаване на паметта от RingBuffer
-     //       vRingbufferReturnItem(rx_ringbuffer, received_data);
-   //     } else {
-     //       ESP_LOGW(TAG, "Неуспешно извличане на данни от RingBuffer");
-       // }
+        esp_err_t write_ret = i2s_channel_write(tx_chan, data, RINGBUF_SIZE, &bytes_read, portMAX_DELAY);
+          
     }
 }

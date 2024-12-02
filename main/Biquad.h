@@ -37,7 +37,7 @@ enum {
     HS
 };
 
- /* In this array you need to specify the type of filter. PK , LP , HP and so on. In this case 6 PK - (PEAK FILTERS ) are set.*/
+ /* In this array you need to specify the type of filter. PK , LP , HP and so on. In this case  PK - (PEAK FILTERS ) are set.*/
 int type_filters[] = { PK
                       ,PK
                       ,PK
