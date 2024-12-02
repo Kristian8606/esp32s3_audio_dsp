@@ -4,7 +4,9 @@
 
 ## ESP32_DSP
 
-Audio Processing with DIR9001 and TDA1387
+[Configure Filters](https://github.com/Kristian8606/ESP32_DSP/blob/main/README.md#configure-filters)
+
+## Audio Processing with DIR9001 and TDA1387
 
 Project Overview
 
@@ -62,7 +64,7 @@ Hardware Components
 *	Audio Input: S/PDIF source
 *	Audio Output: Amplifier or headphones
 
-Hardware Connections
+## Hardware Connections
 
 *	DIR9001 I2S Output → ESP32 I2S Input
 *	ESP32 I2S Output → TDA1387 I2S Input
@@ -87,19 +89,60 @@ git clone https://github.com/Kristian8606/ESP32_DSP.git
 cd ESP32_DSP
 idf.py build flash
 ```  
-
-
-    3.  Configure Filters
+	
+## Configure Filters
 	
 Edit the filter settings in ```Biquad.h``` to customize the DSP behavior:
 
-#define FILTER_TYPE PEAK       // Options: LOW_PASS, HIGH_PASS, BAND_PASS, NOTCH, PEAK, LOW_SHELF, HIGH_SHELF
-#define FREQUENCY 1000         // Hz
-#define GAIN 6                 // dB (for PEAK, LOW_SHELF, HIGH_SHELF)
-#define Q_FACTOR 1.0           // Quality factor
+In this array you need to specify the type of filter. PK , LP , HP and so on. In this case 6 filters PK - (PEAK FILTERS ) are set.
+```C++
+int type_filters[] = { PK      
+                      ,PK
+                      ,PK
+                      ,PK
+                      ,PK
+                      ,PK
+          
+};
+```
+Here you set the filter frequency.
+```C++
+double Hz[] = { 72.50
+              , 120.0
+              , 224.0
+              , 352.0  
+              , 1279.0
+              , 38.0
+         
+
+};
+```
+Here we set the gain in decibels.
+```C++
+double dB[] = { -4.80
+              , -4.10
+              , -2.80
+              , -4.60
+              , -3.30
+              ,  10.0
+            
+};
+```
+And finally the Q of the filter.
+```C++
+double Qd[] = { 5.000
+              , 5.000
+              , 5.000
+              , 3.066
+              , 1.000
+              , 7.0
+              
+};
+
+```
 
 
-Future Enhancements
+## Future Enhancements
 
 *	Implement audio effects like reverb or delay.
 *	Create a Bluetooth or Wi-Fi interface for real-time parameter adjustments.
@@ -107,4 +150,4 @@ Future Enhancements
 
 License
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+This project is licensed under the GPL-3.0 License. See the LICENSE file for more details.
