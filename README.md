@@ -72,7 +72,7 @@ Hardware Components
 *	ESP32 I2S Output → TDA1387 I2S Input
 *	TDA1387 Analog Output → Amplifier or Headphones
 
-//TODO add schematics.
+//TODO add schematics for pins.
 
 Setup Instructions
 
