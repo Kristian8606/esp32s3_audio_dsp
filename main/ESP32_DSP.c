@@ -23,7 +23,6 @@
 #define RINGBUF_SIZE 512     // Размер на RingBuffer в байтове (множество на 3 за 24 бита)
 
 
-
 // RingBuffer
 RingbufHandle_t rx_ringbuffer = NULL;
 //i2s_chan_handle_t rx_handle = NULL, tx_handle = NULL;
@@ -113,21 +112,10 @@ void app_main(void) {
         if (ret == ESP_OK) {
           //  ESP_LOGI(TAG, "Прочетени %d байта от DIR9001", bytes_read);
 
-            // Поставяне на данни в RingBuffer
-      //      if (xRingbufferSend(rx_ringbuffer, data, bytes_read, pdMS_TO_TICKS(200)) != pdTRUE) {
-          //      ESP_LOGW(TAG, "Неуспешно поставяне на данни в RingBuffer");
-      //      } else {
-          //      ESP_LOGI(TAG, "Поставени %d байта в RingBuffer", bytes_read);
-     //       }
         } else {
             ESP_LOGW(TAG, "Неуспешно четене от I2S");
         }
 		
-        // Извличане на данни от RingBuffer и предаване към TDA1387
-      //  size_t item_size;
-     //   int32_t *received_data = (int32_t *)xRingbufferReceive(rx_ringbuffer, &item_size, pdMS_TO_TICKS(200));
-    //    if (received_data != NULL) {
-          //  ESP_LOGI(TAG, "Извлечени %d байта от RingBuffer", item_size);
 			process_data_stereo(data, bytes_read / sizeof(int32_t));
             // Писане на данни в I2S (към TDA1387)
             esp_err_t write_ret = i2s_channel_write(tx_chan, data, RINGBUF_SIZE, &bytes_read, portMAX_DELAY);

@@ -37,44 +37,61 @@ enum {
     HS
 };
 
-
+ /* In this array you need to specify the type of filter. PK , LP , HP and so on. In this case 6 PK - (PEAK FILTERS ) are set.*/
 int type_filters[] = { PK
                       ,PK
                       ,PK
                       ,PK
                       ,PK
                       ,PK
+                      ,PK
+                      ,PK
+                      ,PK
+                      ,PK
+                      
           
 };
-double Hz[] = { 72.50
-              , 120.0
-              , 224.0
-              , 352.0  
-              , 1279.0
-              , 38.0
+double Hz[] = { 73.20
+              , 80.20
+              , 153.5
+              , 201.0
+              , 231.0
+              , 333.0
+              , 546.0
+              , 674.0
+              , 1433
+              , 38
          
 	
 };
 
-double dB[] = { -4.80
-              , -4.10
-              , -2.80
-              , -4.60
+double dB[] = { -6.70
+              ,  3.00
+              , -5.50
+              ,  3.00
               , -3.30
-              ,  10.0
+              , -3.70
+              , -2.50
+              ,  3.00
+              , -3.70
+              , 10.0
             
 };
 
-double Qd[] = { 5.000
-              , 5.000
-              , 5.000
-              , 3.066
-              , 1.000
-              , 7.0
+double Qd[] = { 5.0000
+              , 7.4760
+              , 5.0000
+              , 1.0316
+              , 5.0000
+              , 4.998
+              , 2.537
+              , 6.447
+              , 1.742
+              , 6.0
               
 };
 
-static struct iir_filt {
+  struct iir_filt {
 	float in_z1_st;
     float in_z2_st;
     float out_z1_st;
@@ -100,11 +117,12 @@ void bq_print_info(struct iir_filt* bq){
 	printf("TYPE: %s\n",bq->type);
 	printf("\n");
 }
+
+
+
 int length = (sizeof(Hz) / sizeof(Hz[0]));
 
-
-
-struct iir_filt iir_coeff[6];
+struct iir_filt *iir_coeff;
 
  static void calcBiquad(int type, double Fc, double peakGain,  double Q, struct iir_filt* config) {
 
@@ -259,6 +277,8 @@ struct iir_filt iir_coeff[6];
 }
 
  static void create_biquad() {
+ 
+ iir_coeff = (struct iir_filt *)malloc(length * sizeof(struct iir_filt));
       
      for (int i = 0; i < length; i++){
        //  printf("type iir filter %d  %fHz, dB %f, Q %f\n", type_filters[i], Hz[i], dB[i], Qd[i]);
@@ -284,21 +304,16 @@ static void process_data_stereo(int32_t *data, size_t num_samples) {
 
         // Обработка на левия канал с IIR филтър
         float processed_left = process_iir_ch_1(sample_left, &iir_coeff[0]);
-			  processed_left = process_iir_ch_1(processed_left, &iir_coeff[1]);
-			  processed_left = process_iir_ch_1(processed_left, &iir_coeff[2]);
-			  processed_left = process_iir_ch_1(processed_left, &iir_coeff[3]);
-			  processed_left = process_iir_ch_1(processed_left, &iir_coeff[4]);
-			  processed_left = process_iir_ch_1(processed_left, &iir_coeff[5]);
-			  processed_left = process_iir_ch_1(processed_left, &iir_coeff[6]);
-			  
+        	for(int z = 1; z < length ; z++){
+        		processed_left = process_iir_ch_1(processed_left, &iir_coeff[z]);
+        	}
+			  			  
         // Обработка на десния канал с IIR филтър
         float processed_right = process_iir_ch_2(sample_right, &iir_coeff[0]);
-              processed_right = process_iir_ch_2(processed_right, &iir_coeff[1]);
-              processed_right = process_iir_ch_2(processed_right, &iir_coeff[2]);
-              processed_right = process_iir_ch_2(processed_right, &iir_coeff[3]);
-              processed_right = process_iir_ch_2(processed_right, &iir_coeff[4]);
-              processed_right = process_iir_ch_2(processed_right, &iir_coeff[5]);
-              processed_right = process_iir_ch_2(processed_right, &iir_coeff[6]);
+        for(int z = 1; z < length ; z++){
+        		 processed_right = process_iir_ch_2(processed_right, &iir_coeff[z]);
+        	}
+            
 
 	//	if (processed_left > INT32_MAX) processed_left = INT32_MAX;
 	//	if (processed_left < INT32_MIN) processed_left = INT32_MIN;

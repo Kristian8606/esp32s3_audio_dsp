@@ -3,9 +3,8 @@
 ![6884FAFA-050E-4CCE-93F6-6EF75651843B](https://github.com/user-attachments/assets/f2c9d4b0-3d23-4239-8961-3bb2ab004d40)
 
 ## ESP32_DSP
-[Configure Filters](https://github.com/Kristian8606/ESP32_DSP/blob/main/README.md#configure-filters)
 
-## Audio Processing with DIR9001 and TDA1387
+Audio Processing with DIR9001 and TDA1387
 
 Project Overview
 
@@ -89,57 +88,15 @@ cd ESP32_DSP
 idf.py build flash
 ```  
 
-## Configure Filters
+
+    3.  Configure Filters
 	
 Edit the filter settings in ```Biquad.h``` to customize the DSP behavior:
 
-In this array you need to specify the type of filter. PK , LP , HP and so on. In this case 6 filters PK - (PEAK FILTERS ) are set.
-```C++
-int type_filters[] = { PK      
-                      ,PK
-                      ,PK
-                      ,PK
-                      ,PK
-                      ,PK
-          
-};
-```
-Here you set the filter frequency.
-```C++
-double Hz[] = { 72.50
-              , 120.0
-              , 224.0
-              , 352.0  
-              , 1279.0
-              , 38.0
-         
-	
-};
-```
-Here we set the gain in decibels.
-```C++
-double dB[] = { -4.80
-              , -4.10
-              , -2.80
-              , -4.60
-              , -3.30
-              ,  10.0
-            
-};
-```
-And finally the Q of the filter.
-```C++
-double Qd[] = { 5.000
-              , 5.000
-              , 5.000
-              , 3.066
-              , 1.000
-              , 7.0
-              
-};
-}
-```
-
+#define FILTER_TYPE PEAK       // Options: LOW_PASS, HIGH_PASS, BAND_PASS, NOTCH, PEAK, LOW_SHELF, HIGH_SHELF
+#define FREQUENCY 1000         // Hz
+#define GAIN 6                 // dB (for PEAK, LOW_SHELF, HIGH_SHELF)
+#define Q_FACTOR 1.0           // Quality factor
 
 
 Future Enhancements
@@ -150,4 +107,4 @@ Future Enhancements
 
 License
 
-This project is licensed under the GPL-3.0 License. See the LICENSE file for more details.
+This project is licensed under the MIT License. See the LICENSE file for more details.
