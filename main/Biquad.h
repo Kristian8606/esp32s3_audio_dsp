@@ -318,7 +318,7 @@ static void process_data_stereo(int32_t *data, size_t num_samples) {
 	//	if (processed_left > INT32_MAX) processed_left = INT32_MAX;
 	//	if (processed_left < INT32_MIN) processed_left = INT32_MIN;
         // Запис на обработените стойности обратно в изхода
-        *output++ = (int32_t)(processed_left);
-        *output++ = (int32_t)(processed_right);
+        *output++ = (int32_t)(-processed_left);
+        *output++ = (int32_t)(-processed_right);
     }
 }
