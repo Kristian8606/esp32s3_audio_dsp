@@ -1,5 +1,9 @@
 # ESP32-S3 Multi-DAC Audio System
 
+	## PCB
+
+[PCB LINK](https://easyeda.com/editor#project_id=fa41d6ad6b15413f8a76038f53fb5484)
+
 ### Description
 
 This project is a multi-channel audio system based on ESP32-S3 and ProtoDAC x8 with TDA1387, using DIR9001 as an SPDIF receiver. The system enables flexible audio signal processing, including IIR equalization and FIR crossover filtering, before sending the signal to the DACs.
