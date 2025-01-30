@@ -17,7 +17,7 @@ The architecture consists of a central ESP32-S3 that processes the full-range si
 * Separate Power Supplies for DACs and ESP32-S3 to reduce noise
 * Configurable via menuconfig
 
-System Overview
+## System Overview
 
 ESP32-S3 Assignments
 
