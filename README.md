@@ -19,13 +19,13 @@ The architecture consists of a central ESP32-S3 that processes the full-range si
 
 ## System Overview
 
-ESP32-S3 Assignments
+### ESP32-S3 Assignments
 
-Device	Function	Processing
-U1	Main Controller	SPDIF Input, IIR EQ, Distributes Audio
-U2	Low Frequencies	FIR Low-Pass Filter
-U3	Mid Frequencies	FIR Band-Pass Filter
-U4	High Frequencies	FIR High-Pass Filter
+* Device	Function	Processing
+* U1	Main Controller	SPDIF Input, IIR EQ, Distributes Audio
+* U2	Low Frequencies	FIR Low-Pass Filter
+* U3	Mid Frequencies	FIR Band-Pass Filter
+* U4	High Frequencies	FIR High-Pass Filter
 
 Software Configuration (menuconfig)
 
@@ -46,7 +46,7 @@ Software Configuration (menuconfig)
 *	Must only be used on U1 (Main ESP32-S3)
 *	Dangerous on U2, U3, or U4! – Can send incorrect frequencies to the wrong drivers
 
-3️⃣ Save & Compile
+ Save & Compile
 
 ### Hardware Details
 
@@ -86,5 +86,5 @@ idf.py flash monitor
 *	U2/U3/U4 should always apply FIR filtering to avoid incorrect frequency playback
 *	Ensure proper grounding and separate power supplies for best audio quality
 
-This README ensures that Passthrough Mode is only used on the main ESP (U1), while the other ESP modules continue filtering, preventing incorrect frequency ranges from reaching the wrong speakers.
+Passthrough Mode is only used on the main ESP (U1), while the other ESP modules continue filtering, preventing incorrect frequency ranges from reaching the wrong speakers.
 
