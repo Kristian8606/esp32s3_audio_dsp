@@ -65,7 +65,7 @@ git clone https://github.com/Kristian8606/esp32s3_audio_dsp.git
 cd esp32s3_audio_dsp
 git submodule add https://github.com/espressif/esp-dsp.git components/esp-dsp
 git submodule update --init --recursive
-idf.py set-target esp32
+idf.py set-target esp32s3
 
 ```
 ### Configure the Project
