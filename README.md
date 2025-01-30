@@ -1,166 +1,93 @@
+# ESP32-S3 Multi-DAC Audio System
 
-# ESP32 DSP
-![6884FAFA-050E-4CCE-93F6-6EF75651843B](https://github.com/user-attachments/assets/f2c9d4b0-3d23-4239-8961-3bb2ab004d40)
+### Description
 
-## ESP32_DSP
+This project is a multi-channel audio system based on ESP32-S3 and ProtoDAC x8 with TDA1387, using DIR9001 as an SPDIF receiver. The system enables flexible audio signal processing, including IIR equalization and FIR crossover filtering, before sending the signal to the DACs.
 
-[Configure Filters](https://github.com/Kristian8606/ESP32_DSP/blob/main/README.md#configure-filters)
-
-[Screenshots](https://github.com/Kristian8606/ESP32_DSP/blob/main/README.md#screenshots)
-
-## Audio Processing with DIR9001 and TDA1387
-
-Project Overview
-
-ESP32_DSP is a project that uses the ESP32 as a Digital Signal Processor (DSP) for real-time audio processing. The system takes digital audio input from a DIR9001, processes it on the ESP32 using various filters (e.g., low-pass, high-pass, band-pass, notch, peak, low shelf, and high shelf filters), and sends the processed data to a TDA1387, which outputs an analog audio signal.
-
-## System Architecture
-
-	DIR9001:
-A digital audio receiver that converts S/PDIF input into I2S output. It serves as the audio source and clock synchronizer.
-
-    ESP32:
-
-The core DSP processor that applies various digital filters to the audio signal and outputs it as I2S.
-
-    TDA1387x8:
-
-A high-quality Digital-to-Analog Converter (DAC) that transforms the processed digital signal into an analog audio output.
+The architecture consists of a central ESP32-S3 that processes the full-range signal and distributes it to three additional ESP32-S3 modules, each applying FIR filtering (crossover) for low, mid, and high frequencies.
 
 ## Features
-
-	Real-Time DSP:
-Real-time audio signal processing on the ESP32.
-* Filter Options:
-The system supports multiple filter types, including:
-
-*	Low-Pass Filter: Attenuates frequencies above the cutoff frequency.
-*	High-Pass Filter: Attenuates frequencies below the cutoff frequency.
-*	Band-Pass Filter: Passes frequencies within a specific range.
-*	Notch Filter: Removes a narrow frequency band.
-*	Peak Filter: Boosts or attenuates a specific frequency with adjustable Q-factor.
-*	Low Shelf Filter: Boosts or cuts frequencies below a set threshold.
-*	High Shelf Filter: Boosts or cuts frequencies above a set threshold.
-## Configurable Parameters:
-Filters can be customized with the following parameters:
-*	Center or cutoff frequency
-*	Gain (boost or cut)
-*	Q-factor (bandwidth control)
 	
-## How It Works?
+* SPDIF Input via DIR9001
+* DSP Processing:
+* IIR Equalization (Main ESP32-S3, U1)
+* FIR Crossover Filters (U2, U3, U4 - Low, Mid, High)
+* Multi-ESP Architecture
+* I2S Signal Buffering with TXS0108E
+* Separate Power Supplies for DACs and ESP32-S3 to reduce noise
+* Configurable via menuconfig
 
-	1.	Audio Input:
-The DIR9001 receives a digital audio signal (S/PDIF) and converts it to I2S.
+## System Overview
 
-    2.	DSP Processing:
-The ESP32 processes the audio using the configured filters and applies real-time DSP algorithms.
+### ESP32-S3 Assignments
 
-	3.	Audio Output:
-The TDA1387 converts the processed I2S audio data into an analog signal, ready for playback through headphones or speakers.
+* Device	Function	Processing
+* U1	Main Controller	SPDIF Input, IIR EQ, Distributes Audio
+* U2	Low Frequencies	FIR Low-Pass Filter
+* U3	Mid Frequencies	FIR Band-Pass Filter
+* U4	High Frequencies	FIR High-Pass Filter
 
-Hardware Components
+Software Configuration (menuconfig)
 
-*	ESP32 microcontroller
-*	DIR9001 Digital Audio Receiver
-*	TDA1387 DAC
-*	Audio Input: S/PDIF source
-*	Audio Output: Amplifier or headphones
+### Select Device Role (U1, U2, U3, U4)
+*	U1 (Main ESP32-S3) – Receives SPDIF, applies IIR EQ, and distributes the signal
+*	U2 (Low Frequencies) – Receives processed signal and applies FIR Low-Pass
+*	U3 (Mid Frequencies) – Receives processed signal and applies FIR Band-Pass
+*	U4 (High Frequencies) – Receives processed signal and applies FIR High-Pass
 
-## Hardware Connections
+## DSP Processing Options
+*	✅ Invert Phase
+*	✅ Enable Encoder for Volume Control
+*	✅ Select DSP Filters:
+*	 FIR Only
+*	 IIR Only
+*	 FIR + IIR
+*	⚠️ Passthrough Mode (No DSP Processing) – For Measurement Only!
+*	Must only be used on U1 (Main ESP32-S3)
+*	Dangerous on U2, U3, or U4! – Can send incorrect frequencies to the wrong drivers
 
-*	DIR9001 I2S Output → ESP32 I2S Input
-*	ESP32 I2S Output → TDA1387 I2S Input
-*	TDA1387 Analog Output → Amplifier or Headphones
+3️⃣ Save & Compile
 
-//TODO add schematics for pins.
+### Hardware Details
 
-Setup Instructions
+* ESP32-S3 – Main and three processing units
+* DIR9001 – SPDIF Receiver
+* ProtoDAC x8 (TDA1387) – Three units for audio output
+* TXS0108E – I2S Signal Buffer
+* Separate Power Supplies – Reduces noise and interference
 
-    1.	Connect Hardware
+### Installation & Compilation
 
-Wire all components according to the Hardware Connections section.
-
-    2.	Install Software
-
-*	Install ESP-IDF https://docs.espressif.com/projects/esp-idf/en/latest/esp32/index.html#esp-idf-programming-guide
-*	Clone the repository in the i2s examples directory of the ESP-IDF:
-
-*	Build and flash the ESP32 firmware:
+### Clone the Project
+Clone the project into the esp-idf examples directory
 ```
-git clone https://github.com/Kristian8606/ESP32_DSP.git
-cd ESP32_DSP
-idf.py build flash
-```  
-	
-## Configure Filters
-	
-Edit the filter settings in ```Biquad.h``` to customize the DSP behavior:
-
-In this array you need to specify the type of filter. PK , LP , HP and so on. In this case 6 filters PK - (PEAK FILTERS ) are set.
-```C++
-int type_filters[] = { PK      
-                      ,PK
-                      ,PK
-                      ,PK
-                      ,PK
-                      ,PK
-          
-};
+git clone https://github.com/Kristian8606/esp32s3_audio_dsp.git
+cd esp32s3_audio_dsp
+git submodule add https://github.com/espressif/esp-dsp.git components/esp-dsp
+idf.py set-target esp32
+git submodule update --init --recursive
 ```
-Here you set the filter frequency.
-```C++
-double Hz[] = { 72.50
-              , 120.0
-              , 224.0
-              , 352.0  
-              , 1279.0
-              , 38.0
-         
-
-};
+### Configure the Project
 ```
-Here we set the gain in decibels.
-```C++
-double dB[] = { -4.80
-              , -4.10
-              , -2.80
-              , -4.60
-              , -3.30
-              ,  10.0
-            
-};
+idf.py menuconfig
 ```
-And finally the Q of the filter.
-```C++
-double Qd[] = { 5.000
-              , 5.000
-              , 5.000
-              , 3.066
-              , 1.000
-              , 7.0
-              
-};
+*	Select the correct Device Role (U1/U2/U3/U4)
+*	Configure DSP options (FIR/IIR/Passthrough Mode)
 
+### Compile & Flash
 ```
+idf.py flash monitor
+```
+## Future Improvements
 
+* Test different FIR and IIR filter configurations
+* Optimize power supply and grounding
+* Test longer I2S lines and alternative buffer chips
 
-## Future Enhancements
+## Important Notes
+*	Passthrough Mode should ONLY be used on U1 (Main ESP32-S3)
+*	U2/U3/U4 should always apply FIR filtering to avoid incorrect frequency playback
+*	Ensure proper grounding and separate power supplies for best audio quality
 
-*	Implement audio effects like reverb or delay.
-*	Create a Bluetooth or Wi-Fi interface for real-time parameter adjustments.
-*	Extended functionality to support multi-channel audio via additional ESP32s for tri-amping.
-  
-## Screenshots
-<img width="1321" alt="Screenshot 2024-11-28 at 18 26 12" src="https://github.com/user-attachments/assets/d3ac4f84-e6e8-4fca-b9f8-e87e9bb81174">
-<img width="1321" alt="Screenshot 2024-11-28 at 16 27 04" src="https://github.com/user-attachments/assets/c2af3835-4049-4078-84a0-f31ce91fb996">
-<img width="1321" alt="Screenshot 2024-11-28 at 16 37 57" src="https://github.com/user-attachments/assets/14386e26-e6b7-45dd-8b4b-046573bf361d">
-<img width="1417" alt="Screenshot 2024-11-28 at 16 16 48" src="https://github.com/user-attachments/assets/f1db6b8e-80f2-4c86-a6f2-cb202896289a">
-<img width="1417" alt="Screenshot 2024-11-28 at 16 18 41" src="https://github.com/user-attachments/assets/f8476538-49fa-4cd7-ac31-6cd2de1c9c26">
-<img width="1417" alt="Screenshot 2024-11-28 at 16 18 57" src="https://github.com/user-attachments/assets/f08e3113-1ceb-495b-b2ce-4baac2cf28e0">
-<img width="1143" alt="Screenshot 2024-11-28 at 16 24 18" src="https://github.com/user-attachments/assets/438358c2-ad2d-4eac-a622-628389836352">
+Passthrough Mode is only used on the main ESP (U1), while the other ESP modules continue filtering, preventing incorrect frequency ranges from reaching the wrong speakers.
 
-
-
-## License
-
-This project is licensed under the GPL-3.0 License. See the LICENSE file for more details.
