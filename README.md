@@ -1,4 +1,4 @@
-# ESP32-S3 Multi-DAC Audio System
+# ESP32-S3 Multi-Channel Audio System
 
 
 [PCB LINK](https://easyeda.com/editor#project_id=fa41d6ad6b15413f8a76038f53fb5484)
