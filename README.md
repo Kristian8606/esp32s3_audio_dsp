@@ -1,4 +1,4 @@
-# ESP32-S3 Multi-Channel Audio System
+# ESP32-S3 Multi-DAC Audio System
 
 
 [PCB LINK](https://easyeda.com/editor#project_id=fa41d6ad6b15413f8a76038f53fb5484)
@@ -95,4 +95,4 @@ idf.py flash monitor
 *	Ensure proper grounding and separate power supplies for best audio quality
 
 Passthrough Mode is only used on the main ESP (U1), while the other ESP modules continue filtering, preventing incorrect frequency ranges from reaching the wrong speakers.
-
+Disclaimer: This project is in beta version and is provided 'as is'. Its use is at your own risk, and the authors are not responsible for any damages or issues arising from the use of the project. Users must ensure that all components are properly configured and that the necessary coefficients for the FIR filters are generated correctly for the corresponding speaker.
