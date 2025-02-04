@@ -1,4 +1,4 @@
-# ESP32-S3 Multi-DAC Audio System
+# ESP32-S3 Audio DSP System
 [![Donate with PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](
 https://www.paypal.com/donate/?business=VGY3ZM78NAL78&no_recurring=0&item_name=Thank+you+for+your+donation+%E2%80%93+your+support+helps+the+project%E2%80%99s+development+and+motivates+us+to+keep+working+hard.&currency_code=EUR)
 
@@ -32,7 +32,7 @@ The architecture consists of a central ESP32-S3 that processes the full-range si
 * U3	Mid Frequencies	FIR Band-Pass Filter
 * U4	High Frequencies	FIR High-Pass Filter
 
-Software Configuration (menuconfig)
+## Software Configuration (menuconfig)
 
 ### Select Device Role (U1, U2, U3, U4)
 *	U1 (Main ESP32-S3) – Receives PCM data, applies IIR EQ, and distributes the signal
@@ -51,12 +51,12 @@ Software Configuration (menuconfig)
 *	Must only be used on U1 (Main ESP32-S3)
 *	Dangerous on U2, U3, or U4! – Can send incorrect frequencies to the wrong drivers
 
-3️⃣ Save & Compile
+## Save & Compile
 
 ### Hardware Details
 
 * ESP32-S3 – Main and three processing units
-* DIR9001 – SPDIF Receiver
+* DIR9001 – SPDIF Source of i2s data
 * ProtoDAC x8 (TDA1387) – Three units for audio output
 * TXS0108E – I2S Signal Buffer
 * Separate Power Supplies – Reduces noise and interference
@@ -91,6 +91,8 @@ idf.py flash monitor
 * Test longer I2S lines and alternative buffer chips
 
 ## Important Notes
+
+*   The board is marked with U1,U2,U3,U4. This is important because each ESP32 is configured with different pins. (That is, if you put an ESP32 on the board with the U1 socket marked, you need to specify it in Menuconfig before compilation so that the esp can use the corresponding GPIOs).
 *	Passthrough Mode should ONLY be used on U1 (Main ESP32-S3)
 *	U2/U3/U4 should always apply FIR filtering to avoid incorrect frequency playback
 *	Ensure proper grounding and separate power supplies for best audio quality
