@@ -1,5 +1,6 @@
 # ESP32-S3 Multi-DAC Audio System
-
+[![Donate with PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](
+https://www.paypal.com/donate/?business=VGY3ZM78NAL78&no_recurring=0&item_name=Thank+you+for+your+donation+%E2%80%93+your+support+helps+the+project%E2%80%99s+development+and+motivates+us+to+keep+working+hard.&currency_code=EUR)
 
 [PCB LINK](https://easyeda.com/editor#project_id=fa41d6ad6b15413f8a76038f53fb5484)
 [oshwlab]( https://oshwlab.com/kristiandimitrov/espdsp)
