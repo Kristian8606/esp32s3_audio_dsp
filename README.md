@@ -13,12 +13,12 @@ The architecture consists of a central ESP32-S3 that processes the full-range si
 
 ## Features
 	
-* SPDIF Input via DIR9001
+* SPDIF input via DIR9001, or other i2s source
 * DSP Processing:
 * IIR Equalization (Main ESP32-S3, U1)
 * FIR Crossover Filters (U2, U3, U4 - Low, Mid, High)
 * Multi-ESP Architecture
-* I2S Signal Buffering with TXS0108E
+* I2S signal buffering with TXS0108E or other suitable buffer.
 * Separate Power Supplies for DACs and ESP32-S3 to reduce noise
 * Configurable via menuconfig
 
@@ -27,7 +27,7 @@ The architecture consists of a central ESP32-S3 that processes the full-range si
 ### ESP32-S3 Assignments
 
 * Device	Function	Processing
-* U1	Main Controller	SPDIF Input, IIR EQ, Distributes Audio
+* U1	Main Controller	SPDIF or USB (i2s) Input, IIR EQ, Distributes Audio
 * U2	Low Frequencies	FIR Low-Pass Filter
 * U3	Mid Frequencies	FIR Band-Pass Filter
 * U4	High Frequencies	FIR High-Pass Filter
@@ -35,7 +35,7 @@ The architecture consists of a central ESP32-S3 that processes the full-range si
 Software Configuration (menuconfig)
 
 ### Select Device Role (U1, U2, U3, U4)
-*	U1 (Main ESP32-S3) – Receives SPDIF, applies IIR EQ, and distributes the signal
+*	U1 (Main ESP32-S3) – Receives PCM data, applies IIR EQ, and distributes the signal
 *	U2 (Low Frequencies) – Receives processed signal and applies FIR Low-Pass
 *	U3 (Mid Frequencies) – Receives processed signal and applies FIR Band-Pass
 *	U4 (High Frequencies) – Receives processed signal and applies FIR High-Pass
@@ -47,7 +47,7 @@ Software Configuration (menuconfig)
 *	 FIR Only
 *	 IIR Only
 *	 FIR + IIR
-*	⚠️ Passthrough Mode (No DSP Processing) – For Measurement Only!
+*	⚠️ Passthrough Mode (No DSP Processing) – For Main device Only U1!
 *	Must only be used on U1 (Main ESP32-S3)
 *	Dangerous on U2, U3, or U4! – Can send incorrect frequencies to the wrong drivers
 
