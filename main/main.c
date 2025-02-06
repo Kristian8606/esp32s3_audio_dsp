@@ -28,8 +28,7 @@
 
 #define DMA_DESC_NUM 16
 #define DMA_FRAME_NUM 256
-//#define FIR_COEFFS_LEN      1024    // Number of FIR filter coefficients
-//#define BUFFER_SIZE     2048
+
 
  TaskHandle_t left_task_handle;
  TaskHandle_t right_task_handle;
@@ -139,12 +138,22 @@ void print_device_select(){
     // Проверка на избраното устройство
     #if CONFIG_DEVICE_1
     	print_selected_device(1);
+    	#if CONFIG_FILTER_FIR || CONFIG_FILTER_FIR_IIR
+    	ESP_LOGW("FILTER", "Selected Phase Filter");
+    	#endif
+
     #elif CONFIG_DEVICE_2
 		print_selected_device(2);
+		ESP_LOGW("FILTER", "Selected Low-Pass Filter");
+
     #elif CONFIG_DEVICE_3
         print_selected_device(3);
+        ESP_LOGW("FILTER", "Selected Band-Pass Filter");
+
     #elif CONFIG_DEVICE_4
 		print_selected_device(4);
+		ESP_LOGW("FILTER", "Selected High-Pass Filter");
+
     #endif
 }
 
@@ -153,7 +162,8 @@ void app_main(void) {
 	
     // Проверка на избрания филтър
     #if CONFIG_FILTER_NONE
-    	ESP_LOGI(TAG,"No filter applied\n");
+    	ESP_LOGI(TAG,"No filter applied");
+    	ESP_LOGW(TAG,"Passthrough Mode");
     #elif CONFIG_FILTER_FIR || CONFIG_FILTER_FIR_IIR
     	fir_filter_init();
 		//int32_t *data_fir = (int32_t *)malloc(BUFFER_SIZE * sizeof(int32_t));
@@ -167,13 +177,13 @@ void app_main(void) {
     	xTaskCreatePinnedToCore(process_right, "Right Task", 4096, NULL, 5, &right_task_handle, 1);
    		#if CONFIG_FILTER_FIR_IIR
    		create_biquad();
-    	ESP_LOGI(TAG,"FIR and IIR filter selected\n");
+    	ESP_LOGI(TAG,"FIR and IIR filter selected");
     	#elif CONFIG_FILTER_FIR
-    	ESP_LOGI(TAG,"FIR filter selected\n");
+    	ESP_LOGI(TAG,"FIR filter selected");
     	#endif
     #elif CONFIG_FILTER_IIR
     	create_biquad();
-        ESP_LOGI(TAG,"IIR filter selected\n");
+        ESP_LOGI(TAG,"IIR filter selected");
         // Включи IIR код тук
     #endif
 

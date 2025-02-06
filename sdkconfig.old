@@ -511,21 +511,21 @@ CONFIG_PARTITION_TABLE_MD5=y
 #
 # Device and Filter Configuration
 #
-CONFIG_DEVICE_1=y
+# CONFIG_DEVICE_1 is not set
 # CONFIG_DEVICE_2 is not set
-# CONFIG_DEVICE_3 is not set
+CONFIG_DEVICE_3=y
 # CONFIG_DEVICE_4 is not set
 
 #
 # Filter Configuration
 #
 # CONFIG_FILTER_NONE is not set
-# CONFIG_FILTER_FIR is not set
+CONFIG_FILTER_FIR=y
 # CONFIG_FILTER_IIR is not set
-CONFIG_FILTER_FIR_IIR=y
+# CONFIG_FILTER_FIR_IIR is not set
 # end of Filter Configuration
 
-CONFIG_PHASE_INVERT=y
+# CONFIG_PHASE_INVERT is not set
 # CONFIG_ENABLE_ENCODER is not set
 # end of Device and Filter Configuration
 

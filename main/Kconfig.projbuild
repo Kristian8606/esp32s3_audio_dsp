@@ -25,7 +25,7 @@ choice FILTER_TYPE
     default FILTER_NONE
 
 config FILTER_NONE
-    bool "No Filter"
+    bool "Passthrough Mode"
 
 config FILTER_FIR
     bool "FIR Filter"
