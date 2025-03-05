@@ -105,7 +105,8 @@ void wm8805_monitor_task(void *arg) {
     }
 }
 
-// Main functionoid app_main() {
+// Main function
+void app_main() {
     i2c_master_init(); // Initialize I2C bus and device
     wm8805_init(); // Initialize WM8805 receiver
     xTaskCreate(wm8805_monitor_task, "wm8805_monitor_task", 2048, NULL, 5, NULL); // Start monitoring task
