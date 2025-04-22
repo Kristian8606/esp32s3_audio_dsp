@@ -106,7 +106,7 @@ void init_i2s(void) {
  void split_stereo_signal(int32_t *stereo_data, size_t num_samples, float *left, float *right) {
     int32_t *in = stereo_data;
     float *l = left, *r = right;
-    const float scale = 1.0f / 2147483648.0f;
+    const float scale = 1.0f / 8388608.0f; // 2^23
 
     for (size_t i = 0; i < num_samples; i++) {
         *l++ = (float)(*in++) * scale; // Ляв канал
@@ -115,7 +115,9 @@ void init_i2s(void) {
 }
 
 void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size_t num_samples) {
-    const float scale = 2147483648.0f;
+    const float scale = 8388608.0f; // 2^23
+    const float volume_gain = 1.3f;  // Например, усилване на 2 пъти
+
     float *l = left;
     float *r = right;
     int32_t *stereo = stereo_data;
@@ -130,9 +132,10 @@ void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size
         *r *= -1;
         #endif
 
-        *l = fmaxf(-1.0f, fminf(*l, 1.0f));
-        *r = fmaxf(-1.0f, fminf(*r, 1.0f));
-
+     //   *l = fmaxf(-1.0f, fminf(*l, 1.0f));
+     //   *r = fmaxf(-1.0f, fminf(*r, 1.0f));
+		*l *= volume_gain;
+		*r *= volume_gain;
         *stereo++ = (int32_t)(*l * scale);   // Ляв канал
         *stereo++ = (int32_t)(*r * scale);   // Десен канал
 
