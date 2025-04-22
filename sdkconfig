@@ -579,28 +579,36 @@ CONFIG_PARTITION_TABLE_MD5=y
 #
 # Device and Filter Configuration
 #
-# CONFIG_DEVICE_1 is not set
+CONFIG_DEVICE_1=y
 # CONFIG_DEVICE_2 is not set
 # CONFIG_DEVICE_3 is not set
-CONFIG_DEVICE_4=y
+# CONFIG_DEVICE_4 is not set
 
 #
 # Filter Configuration
 #
 # CONFIG_FILTER_NONE is not set
-CONFIG_FILTER_FIR=y
-# CONFIG_FILTER_IIR is not set
+# CONFIG_FILTER_FIR is not set
+CONFIG_FILTER_IIR=y
 # CONFIG_FILTER_FIR_IIR is not set
 # end of Filter Configuration
 
 #
 # Audio Source Selection
 #
-# CONFIG_AUDIO_SOURCE_WM8805 is not set
-CONFIG_AUDIO_SOURCE_OTHER=y
+CONFIG_AUDIO_SOURCE_WM8805=y
+# CONFIG_AUDIO_SOURCE_OTHER is not set
 # end of Audio Source Selection
 
-# CONFIG_PHASE_INVERT is not set
+#
+# WM8805 Pin Configuration
+#
+CONFIG_WM8805_SDA_PIN=10
+CONFIG_WM8805_SCL_PIN=9
+CONFIG_WM8805_RESET_PIN=8
+# end of WM8805 Pin Configuration
+
+CONFIG_PHASE_INVERT=y
 # CONFIG_ENABLE_ENCODER is not set
 # end of Device and Filter Configuration
 

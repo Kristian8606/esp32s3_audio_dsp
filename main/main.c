@@ -116,7 +116,7 @@ void init_i2s(void) {
 
 void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size_t num_samples) {
     const float scale = 8388608.0f; // 2^23
-    const float volume_gain = 1.3f;  // Например, усилване на 2 пъти
+   // const float volume_gain = 1.3f;  // Например, усилване на 2 пъти
 
     float *l = left;
     float *r = right;
@@ -134,8 +134,8 @@ void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size
 
      //   *l = fmaxf(-1.0f, fminf(*l, 1.0f));
      //   *r = fmaxf(-1.0f, fminf(*r, 1.0f));
-		*l *= volume_gain;
-		*r *= volume_gain;
+	//	*l *= volume_gain;
+	//	*r *= volume_gain;
         *stereo++ = (int32_t)(*l * scale);   // Ляв канал
         *stereo++ = (int32_t)(*r * scale);   // Десен канал
 
