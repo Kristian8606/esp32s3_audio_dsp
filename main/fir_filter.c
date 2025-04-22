@@ -1,5 +1,7 @@
 #include "fir_filter.h"
 #include "fir_coeffs.h"
+#include "webserver.h"
+
 
 #if CONFIG_FILTER_FIR_IIR || CONFIG_FILTER_FIR
 // FIR коефициенти и линии на закъснение
@@ -21,8 +23,8 @@ static fir_f32_t fir_right;
 
 // Инициализация на FIR филтъра
 void fir_filter_init(void) {
-    dsps_fir_init_f32(&fir_left, fir_coeffs, delay_line_left, FIR_COEFFS_LEN);
-    dsps_fir_init_f32(&fir_right, fir_coeffs, delay_line_right, FIR_COEFFS_LEN);
+    dsps_fir_init_f32(&fir_left, coeffs, delay_line_left, FIR_COEFFS_LEN);
+    dsps_fir_init_f32(&fir_right, coeffs, delay_line_right, FIR_COEFFS_LEN);
     ESP_LOGI("FIR", "FIR filter initialized with coeff len: %d", FIR_COEFFS_LEN);
 }
 

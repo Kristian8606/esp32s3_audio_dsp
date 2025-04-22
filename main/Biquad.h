@@ -1,8 +1,12 @@
 #include <math.h>
 #include <stdio.h>
+#include "webserver.h"
+
 #define SAMPLE_RATE (44100)
 
 #define M_PI 3.14159265358979323846
+
+int length;
 /*
 Filter Settings file
 
@@ -37,7 +41,8 @@ enum {
 };
 
  /* In this array you need to specify the type of filter. PK , LP , HP and so on. In this case  PK - (PEAK FILTERS ) are set.*/
-int type_filters[] = { PK
+ /*
+ type_filters[] = { PK
                       ,PK
                       ,PK
                       ,PK
@@ -51,7 +56,7 @@ int type_filters[] = { PK
                       
       
 };
-double Hz[] = { 45.80
+ Hz[] = { 45.80
               , 48.75
               , 58.10
               , 70.80
@@ -65,7 +70,7 @@ double Hz[] = { 45.80
           
 };
 
-double dB[] = {   3.00
+ dB[] = {   3.00
               ,  -5.50
               ,  -6.70
               , -10.80
@@ -79,7 +84,7 @@ double dB[] = {   3.00
         
 };
 
-double Qd[] = {  1.000
+ Qd[] = {  1.000
               , 22.248
               , 10.674
               ,  6.692
@@ -92,6 +97,7 @@ double Qd[] = {  1.000
               ,  5.0
             
 };
+*/
 
   struct iir_filt {
 	float in_z1_st;
@@ -122,7 +128,7 @@ void bq_print_info(struct iir_filt* bq){
 
 
 
-int length = (sizeof(Hz) / sizeof(Hz[0]));
+ //length = filter_count;//(int)(sizeof(Hz) / sizeof(Hz[0]));
 
 struct iir_filt *iir_coeff;
 
@@ -279,7 +285,7 @@ struct iir_filt *iir_coeff;
 }
 
  static void create_biquad() {
- 
+ length = filter_count;
  iir_coeff = (struct iir_filt *)malloc(length * sizeof(struct iir_filt));
       
      for (int i = 0; i < length; i++){
@@ -295,7 +301,6 @@ static void process_data_stereo(int32_t *data, size_t num_samples, float volume)
     // Параметърите са:
     // `data` - указател към входните/изходните данни (32-битови цели числа)
     // `num_samples` - броят на пробите (стерео пробите се броят поотделно, т.е. ляв и десен канал са двойки)
-
     int32_t *input = data;    // Указател към входните данни
     int32_t *output = data;   // Указател към изходните данни (същият като входния)
 

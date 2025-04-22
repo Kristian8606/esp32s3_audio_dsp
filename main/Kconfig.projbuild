@@ -40,6 +40,47 @@ endchoice
 
 endmenu
 
+menu "Audio Source Selection"
+    choice
+        prompt "Select Audio Source"
+        default AUDIO_SOURCE_OTHER  # Default: Other Source
+
+        config AUDIO_SOURCE_WM8805
+            bool "WM8805"
+            help
+                Select this option to use WM8805 as the audio source.
+
+        config AUDIO_SOURCE_OTHER
+            bool "Other Source"
+            help
+                Select this option to use another audio source.
+
+    endchoice
+endmenu
+
+# Добавяне на подменю за конфигуриране на пиновете, когато е избран WM8805
+menu "WM8805 Pin Configuration"
+    depends on AUDIO_SOURCE_WM8805  # Този блок ще се появи само когато е избран WM8805
+    config WM8805_SDA_PIN
+        int "SDA Pin"
+        default 10  # Примерен пин
+        help
+            Изберете пина за SDA (Serial Data) за WM8805.
+
+    config WM8805_SCL_PIN
+        int "SCL Pin"
+        default 9  # Примерен пин
+        help
+            Изберете пина за SCL (Serial Clock) за WM8805.
+
+    config WM8805_RESET_PIN
+        int "RESET Pin"
+        default 8  # Примерен пин
+        help
+            Изберете пина за RESET за WM8805.
+
+endmenu
+
 config PHASE_INVERT
     bool "Invert Phase"
     default n
