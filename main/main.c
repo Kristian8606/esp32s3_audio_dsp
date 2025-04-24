@@ -54,6 +54,9 @@ const float volume_s = 1.0;
 #include "wm8805.h"
 #endif
 
+#define CLAMP_UNIT_RANGE(x) (fmaxf(-1.0f, fminf((x), 1.0f)))
+
+
 i2s_chan_handle_t rx_chan, tx_chan;
 
 void init_i2s(void) {
@@ -116,7 +119,6 @@ void init_i2s(void) {
 
 void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size_t num_samples) {
     const float scale = 8388608.0f; // 2^23
-   // const float volume_gain = 1.3f;  // Например, усилване на 2 пъти
 
     float *l = left;
     float *r = right;
@@ -131,11 +133,11 @@ void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size
         *l *= -1;
         *r *= -1;
         #endif
-
-     //   *l = fmaxf(-1.0f, fminf(*l, 1.0f));
-     //   *r = fmaxf(-1.0f, fminf(*r, 1.0f));
-	//	*l *= volume_gain;
-	//	*r *= volume_gain;
+		
+		//clipping protection
+		*l = CLAMP_UNIT_RANGE(*l);
+		*r = CLAMP_UNIT_RANGE(*r);
+	
         *stereo++ = (int32_t)(*l * scale);   // Ляв канал
         *stereo++ = (int32_t)(*r * scale);   // Десен канал
 
