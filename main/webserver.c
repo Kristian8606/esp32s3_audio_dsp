@@ -1,4 +1,8 @@
 #include <string.h>
+#include <inttypes.h>
+#include <stdint.h>
+#include <stdio.h>
+
 #include "esp_wifi.h"
 #include "esp_event.h"
 #include "esp_log.h"
@@ -10,7 +14,6 @@
 #include "fir_coeffs.h"
 #include "esp_tls.h"
 #include "esp_netif.h"
-
 
 
 #define MAX_COEFFS 1024
@@ -44,7 +47,7 @@ esp_err_t save_filters() {
     }
 
     if (filter_count <= 0 || filter_count > MAX_FILTERS) {
-        ESP_LOGE(TAG, "Некоректен filter_count: %d", filter_count);
+        ESP_LOGE(TAG, "Некоректен filter_count: %d" , filter_count);
         nvs_close(nvs_handle);
         return ESP_ERR_INVALID_ARG;
     }

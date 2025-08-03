@@ -22,6 +22,9 @@
 #include "gpio_config.h"
 #include "webserver.h"
 #include "esp_timer.h"
+#include <inttypes.h>
+
+
 //#include "wm8805.h"
 
 #define TAG "I2S_STD"
@@ -74,7 +77,7 @@ void init_i2s(void) {
 
     i2s_std_config_t std_cfg = {
         .clk_cfg  = I2S_STD_CLK_DEFAULT_CONFIG(44100),
-        .slot_cfg = I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_32BIT, I2S_SLOT_MODE_STEREO),
+        .slot_cfg = I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG(I2S_SLOT_BIT_WIDTH_32BIT, I2S_SLOT_MODE_STEREO),
         .gpio_cfg = {
             .mclk = -1,    // some codecs may require mclk signal, this example doesn't need it
             .bclk = I2S_PIN_BCLK,
@@ -91,9 +94,10 @@ void init_i2s(void) {
      /* Set data bit-width to 24 means your sample is 24 bits, I2S will help to shift the data by hardware */
     //std_cfg.slot_cfg.data_bit_width = I2S_DATA_BIT_WIDTH_24BIT;
     /* Set slot bit-width to 32 means there still will be 32 bit in one slot */
-   // std_cfg.slot_cfg.slot_bit_width = I2S_SLOT_BIT_WIDTH_32BIT;
+    std_cfg.slot_cfg.slot_bit_width = I2S_DATA_BIT_WIDTH_32BIT;
+   // std_cfg.slot_cfg.bit_shift = true;
     //std_cfg.clk_cfg.clk_src = I2S_CLK_SRC_DEFAULT; //I2S_CLK_SRC_XTAL; //I2S_CLK_SRC_APLL;
-    //std_cfg.clk_cfg.mclk_multiple = 384;
+    //std_cfg.clk_cfg.mclk_multiple = 384;  I2S_DATA_BIT_WIDTH_32BIT
     //std_cfg.clk_cfg.clk_src = I2S_CLK_SRC_EXTERNAL;  // Получава BCLK и WS от DIR9001
     //std_cfg.clk_cfg.mclk_multiple = I2S_MCLK_MULTIPLE_128; // Не използва MCLK ext_clk_freq_hz  ext_clk_freq_hz 
     //std_cfg.clk_cfg.ext_clk_freq_hz = 22579200;
@@ -106,6 +110,8 @@ void init_i2s(void) {
     ESP_ERROR_CHECK(i2s_channel_enable(rx_chan));
 
 }
+
+/*
  void split_stereo_signal(int32_t *stereo_data, size_t num_samples, float *left, float *right) {
     int32_t *in = stereo_data;
     float *l = left, *r = right;
@@ -145,7 +151,7 @@ void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size
         r++;  // Преминаваме към следващия елемент в масива за десния канал
     }
 }
-/*
+*/ 
   void split_stereo_signal(const int32_t *stereo_data, size_t num_samples, float *left, float *right) {
     for (size_t i = 0; i < num_samples; i++) {
         left[i] = (float)stereo_data[i * 2] / 2147483648.0f;   // Ляв канал
@@ -156,8 +162,8 @@ void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size
   void combine_stereo_signal( float *left,  float *right, int32_t *stereo_data, size_t num_samples) {
     for (size_t i = 0; i < num_samples; i++) {
     	 #if CONFIG_FILTER_FIR
-        left[i] *= volume_s;
- 	    right[i] *= volume_s;
+      //  left[i] *= volume_s;
+ 	   // right[i] *= volume_s;
  	    #endif
  	    #if CONFIG_PHASE_INVERT
 		left[i] *= -1;
@@ -171,7 +177,7 @@ void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size
     }
 }
 
-*/ 
+
 
 #if CONFIG_PHASE_INVERT
 		void process_phase(int32_t *data, size_t num_samples){
