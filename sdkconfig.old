@@ -580,7 +580,7 @@ CONFIG_FILTER_NONE=y
 CONFIG_AUDIO_SOURCE_OTHER=y
 # end of Audio Source Selection
 
-# CONFIG_PHASE_INVERT is not set
+CONFIG_PHASE_INVERT=y
 # CONFIG_ENABLE_ENCODER is not set
 # end of Device and Type Filter Configuration
 

@@ -568,8 +568,8 @@ CONFIG_DEVICE_1=y
 # Filter Configuration
 #
 # CONFIG_FILTER_NONE is not set
-CONFIG_FILTER_FIR=y
-# CONFIG_FILTER_IIR is not set
+# CONFIG_FILTER_FIR is not set
+CONFIG_FILTER_IIR=y
 # CONFIG_FILTER_FIR_IIR is not set
 # end of Filter Configuration
 
@@ -580,7 +580,7 @@ CONFIG_FILTER_FIR=y
 CONFIG_AUDIO_SOURCE_OTHER=y
 # end of Audio Source Selection
 
-# CONFIG_PHASE_INVERT is not set
+CONFIG_PHASE_INVERT=y
 # CONFIG_ENABLE_ENCODER is not set
 # end of Device and Type Filter Configuration
 

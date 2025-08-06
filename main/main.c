@@ -245,6 +245,7 @@ void button_task(void* arg) {
                 TickType_t press_duration = xTaskGetTickCount() - press_start_time;
                 if (press_duration >= pdMS_TO_TICKS(LONG_PRESS_TIME)) {
                     // Ако бутонът е натиснат за повече от 5 секунди
+                    #if (CONFIG_FILTER_NONE == 0)
                     ESP_LOGI("BUTTON", "Button pressed for more than 5 seconds");
                    ESP_LOGI(TAG, "Стартиране на Wi-Fi AP...");
    					wifi_init_softap();
@@ -263,6 +264,7 @@ void button_task(void* arg) {
 					    ESP_ERROR_CHECK(i2s_del_channel(tx_chan));
 					    vTaskDelay(pdMS_TO_TICKS(10));
 					ESP_LOGW("I2S", "Delete i2s channel");
+					#endif
                 } else {
                     ESP_LOGI("BUTTON", "Button press was too short");
                 }
@@ -310,10 +312,15 @@ void set_cpu(){
 void app_main(void) {
 
     set_cpu();
-    esp_err_t err = web_server();
+    #if CONFIG_FILTER_NONE == 0
+
+	 esp_err_t err = web_server();
      if(err != ESP_OK){
      return;
      }
+	#endif
+	
+   
     gpio_init();
 	init_i2s();
 	
