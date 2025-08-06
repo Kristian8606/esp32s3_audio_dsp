@@ -1,20 +1,14 @@
-menu "Device and Filter Configuration"
+menu "Device and Type Filter Configuration"
 
 choice DEVICE_SELECTION
     prompt "Select ESP32S3 Device"
     default DEVICE_1
 
 config DEVICE_1
-    bool "ESP32S3 Device U1"
+    bool "ESP32S3 Device EQ"
 
 config DEVICE_2
-    bool "ESP32S3 Device U2"
-
-config DEVICE_3
-    bool "ESP32S3 Device U3"
-
-config DEVICE_4
-    bool "ESP32S3 Device U4"
+    bool "ESP32S3 Device DSP"
 
 endchoice
 

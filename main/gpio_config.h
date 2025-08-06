@@ -14,7 +14,7 @@
 	#define I2S_PIN_WS      7 //8 
 	#define I2S_PIN_DIN     6 //9 
 	#define I2S_PIN_DOUT    10 //2
-
+/*
 #elif CONFIG_DEVICE_3//
 	#define I2S_PIN_BCLK    8 //7
 	#define I2S_PIN_WS      7 //8 
@@ -26,7 +26,7 @@
 	#define I2S_PIN_WS      7 //5 
 	#define I2S_PIN_DIN     6 //4 
 	#define I2S_PIN_DOUT    10 //12
-
+*/
 #endif
 
 

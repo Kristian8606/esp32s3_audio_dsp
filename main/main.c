@@ -23,6 +23,7 @@
 #include "webserver.h"
 #include "esp_timer.h"
 #include <inttypes.h>
+#include "esp_pm.h"
 
 
 //#include "wm8805.h"
@@ -194,13 +195,13 @@ void print_device_select(){
     #if CONFIG_DEVICE_1
     	print_selected_device(1);
     	#if CONFIG_FILTER_FIR || CONFIG_FILTER_FIR_IIR
-    	ESP_LOGW("FILTER", "Selected Phase Filter");
+    	ESP_LOGW("FILTER", "Selected EQ Filter");
     	#endif
 
     #elif CONFIG_DEVICE_2
 		print_selected_device(2);
-		ESP_LOGW("FILTER", "Selected Low-Pass Filter");
-
+		ESP_LOGW("FILTER", "Selected DSP Fir Filter");
+/*
     #elif CONFIG_DEVICE_3
         print_selected_device(3);
         ESP_LOGW("FILTER", "Selected Band-Pass Filter");
@@ -208,7 +209,7 @@ void print_device_select(){
     #elif CONFIG_DEVICE_4
 		print_selected_device(4);
 		ESP_LOGW("FILTER", "Selected High-Pass Filter");
-
+*/
     #endif
 }
 
@@ -291,9 +292,24 @@ void gpio_init(void) {
     // Създаване на задача за обработка на събития от бутона
     xTaskCreate(button_task, "button_task", 4096, NULL, 2, NULL);
 }
-
+void set_cpu(){
+#if CONFIG_PM_ENABLE
+ esp_pm_config_t pm_config = {
+    .max_freq_mhz = 240,
+    .min_freq_mhz = 240,
+    .light_sleep_enable = false,
+};
+    esp_err_t err = esp_pm_configure(&pm_config);
+    if (err == ESP_OK) {
+        ESP_LOGW("PM", "CPU locked at 240 MHz, light-sleep disabled");
+    } else {
+        ESP_LOGE("PM", "esp_pm_configure failed: %d", err);
+    }
+    #endif
+}
 void app_main(void) {
 
+    set_cpu();
     esp_err_t err = web_server();
      if(err != ESP_OK){
      return;
@@ -334,6 +350,7 @@ void app_main(void) {
     #endif
 
 print_device_select();
+
 
 #if CONFIG_ENABLE_ENCODER
 	 // Инициализация на енкодер

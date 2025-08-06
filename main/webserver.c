@@ -1,3 +1,5 @@
+#ifndef GPIO_CONFIG_H
+#define GPIO_CONFIG_H
 #include <string.h>
 #include <inttypes.h>
 #include <stdint.h>
@@ -25,7 +27,7 @@ static const char *TAG = "WEB_SERVER";
 char buf[MAX_POST_SIZE];
 char json_buffer[MAX_POST_SIZE];
 
-#define MAX_FILTERS 10  // Максимален брой филтри
+#define MAX_FILTERS 20  // Максимален брой филтри
 int32_t filter_count ; 
 int type_filters[MAX_FILTERS];
 double Hz[MAX_FILTERS];
@@ -529,6 +531,7 @@ httpd_handle_t start_webserver() {
 }
 
 // Стартиране на Wi-Fi AP
+/*
 void wifi_init_softap() {
     esp_netif_init();
     esp_event_loop_create_default();
@@ -537,6 +540,35 @@ void wifi_init_softap() {
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     esp_wifi_init(&cfg);
     wifi_config_t wifi_config = { .ap = { .ssid = "ESP32_Config", .password = "12345678", .max_connection = 4, .authmode = WIFI_AUTH_WPA_WPA2_PSK } };
+    esp_wifi_set_mode(WIFI_MODE_AP);
+    esp_wifi_set_config(WIFI_IF_AP, &wifi_config);
+    esp_wifi_start();
+}
+*/
+void wifi_init_softap() {
+    char ssid_name[32];
+
+    #if CONFIG_DEVICE_1
+    strcpy(ssid_name, "ESP32_EQ");
+    #else
+    strcpy(ssid_name, "ESP32_DSP");
+    #endif
+
+    esp_netif_init();
+    esp_event_loop_create_default();
+    esp_netif_create_default_wifi_ap();
+
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    esp_wifi_init(&cfg);
+
+    wifi_config_t wifi_config = { 0 }; // нулирай всичко
+
+    strncpy((char *)wifi_config.ap.ssid, ssid_name, sizeof(wifi_config.ap.ssid));
+    strncpy((char *)wifi_config.ap.password, "12345678", sizeof(wifi_config.ap.password));
+    
+    wifi_config.ap.max_connection = 4;
+    wifi_config.ap.authmode = WIFI_AUTH_WPA_WPA2_PSK;
+
     esp_wifi_set_mode(WIFI_MODE_AP);
     esp_wifi_set_config(WIFI_IF_AP, &wifi_config);
     esp_wifi_start();
@@ -567,3 +599,4 @@ esp_err_t web_server() {
 	}
 	return err;
 }
+#endif
