@@ -42,21 +42,13 @@
  TaskHandle_t right_task_handle;
  TaskHandle_t main_task_handle;
 
-#ifdef CONFIG_ENABLE_ENCODER
 #include "encoder.h"		
-#else
-const float volume_s = 1.0;	
-#endif
+//float volume_s = 1.0;	
 
-#ifdef CONFIG_FILTER_FIR_IIR
 #include "Biquad.h"
-#elif CONFIG_FILTER_IIR
-#include "Biquad.h"
-#endif
 
-#ifdef CONFIG_AUDIO_SOURCE_WM8805
+
 #include "wm8805.h"
-#endif
 
 #define CLAMP_UNIT_RANGE(x) (fmaxf(-1.0f, fminf((x), 1.0f)))
 
@@ -162,14 +154,11 @@ void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size
  
   void combine_stereo_signal( float *left,  float *right, int32_t *stereo_data, size_t num_samples) {
     for (size_t i = 0; i < num_samples; i++) {
-    	 #if CONFIG_FILTER_FIR
-      //  left[i] *= volume_s;
- 	   // right[i] *= volume_s;
- 	    #endif
- 	    #if CONFIG_PHASE_INVERT
-		left[i] *= -1;
- 	    right[i] *= -1;
-		#endif
+    	
+ //	    #if CONFIG_PHASE_INVERT
+//		left[i] *= -1;
+// 	    right[i] *= -1;
+//		#endif
  	    
  	   left[i] = fmaxf(-1.0f, fminf(left[i], 1.0f));
 	   right[i] = fmaxf(-1.0f, fminf(right[i], 1.0f));
@@ -180,25 +169,23 @@ void combine_stereo_signal(float *left, float *right, int32_t *stereo_data, size
 
 
 
-#if CONFIG_PHASE_INVERT
-		void process_phase(int32_t *data, size_t num_samples){
-			for (size_t i = 0; i < num_samples; i++) {
-				data[i] = data[i] * -1;
-			}
-		}
-#endif
+void process_phase(int32_t *data, size_t num_samples){
+	 for (size_t i = 0; i < num_samples; i++) {
+			data[i] = data[i] * -1;
+	 }
+}
+
 void print_selected_device(int val){
-	ESP_LOGI("DEVICE", "Selected Device %d GPIO: WS %d BCLK %d, DIN %d DOUT %d",val, I2S_PIN_WS, I2S_PIN_BCLK, I2S_PIN_DIN, I2S_PIN_DOUT);
+	//ESP_LOGI("DEVICE", "Selected Device %d GPIO: WS %d BCLK %d, DIN %d DOUT %d",val, I2S_PIN_WS, I2S_PIN_BCLK, I2S_PIN_DIN, I2S_PIN_DOUT);
 }
 void print_device_select(){
     // Проверка на избраното устройство
-    #if CONFIG_DEVICE_1
-    	print_selected_device(1);
-    	#if CONFIG_FILTER_FIR || CONFIG_FILTER_FIR_IIR
-    	ESP_LOGW("FILTER", "Selected EQ Filter");
-    	#endif
 
-    #elif CONFIG_DEVICE_2
+    	print_selected_device(1);
+
+    	ESP_LOGW("FILTER", "Selected EQ Filter");
+
+
 		print_selected_device(2);
 		ESP_LOGW("FILTER", "Selected DSP Fir Filter");
 /*
@@ -210,7 +197,6 @@ void print_device_select(){
 		print_selected_device(4);
 		ESP_LOGW("FILTER", "Selected High-Pass Filter");
 */
-    #endif
 }
 
 
@@ -245,7 +231,7 @@ void button_task(void* arg) {
                 TickType_t press_duration = xTaskGetTickCount() - press_start_time;
                 if (press_duration >= pdMS_TO_TICKS(LONG_PRESS_TIME)) {
                     // Ако бутонът е натиснат за повече от 5 секунди
-                    #if (CONFIG_FILTER_NONE == 0)
+                  //  #if (CONFIG_FILTER_NONE == 0)
                     ESP_LOGI("BUTTON", "Button pressed for more than 5 seconds");
                    ESP_LOGI(TAG, "Стартиране на Wi-Fi AP...");
    					wifi_init_softap();
@@ -264,7 +250,7 @@ void button_task(void* arg) {
 					    ESP_ERROR_CHECK(i2s_del_channel(tx_chan));
 					    vTaskDelay(pdMS_TO_TICKS(10));
 					ESP_LOGW("I2S", "Delete i2s channel");
-					#endif
+				//	#endif
                 } else {
                     ESP_LOGI("BUTTON", "Button press was too short");
                 }
@@ -312,53 +298,34 @@ void set_cpu(){
 void app_main(void) {
 
     set_cpu();
-    #if CONFIG_FILTER_NONE == 0
 
 	 esp_err_t err = web_server();
      if(err != ESP_OK){
      return;
      }
-	#endif
-	
+
    
     gpio_init();
 	init_i2s();
+	fir_filter_init();
 	
+	
+	if(!is_eq){
+	create_biquad();
+	}else{
+	// Създаване на задачи за обработка
+    xTaskCreatePinnedToCore(process_left, "Left Task", 4096, NULL, 5, &left_task_handle, 0);
+    xTaskCreatePinnedToCore(process_right, "Right Task", 4096, NULL, 5, &right_task_handle, 1);
+	}
 
-	#if CONFIG_AUDIO_SOURCE_WM8805
-	i2c_wm8805_init();
-	#endif
-
-    // Проверка на избрания филтър
-    #if CONFIG_FILTER_NONE
-    	ESP_LOGI(TAG,"No filter applied");
-    	ESP_LOGW(TAG,"Passthrough Mode");
-    #elif CONFIG_FILTER_FIR || CONFIG_FILTER_FIR_IIR
-    	fir_filter_init();
-		//int32_t *data_fir = (int32_t *)malloc(BUFFER_SIZE * sizeof(int32_t));
-		int32_t *data_fir = (int32_t *)heap_caps_malloc(BUFFER_SIZE * sizeof(int32_t), MALLOC_CAP_DMA);
-		if (data_fir == NULL) {
-   		 	ESP_LOGE(TAG, "Failed to allocate FIR buffer!");
-    		return;
-		}
-		    // Създаване на задачи за обработка
-    	xTaskCreatePinnedToCore(process_left, "Left Task", 4096, NULL, 5, &left_task_handle, 0);
-    	xTaskCreatePinnedToCore(process_right, "Right Task", 4096, NULL, 5, &right_task_handle, 1);
-   		#if CONFIG_FILTER_FIR_IIR
-   		create_biquad();
-    	ESP_LOGI(TAG,"FIR and IIR filter selected");
-    	#elif CONFIG_FILTER_FIR
-    	ESP_LOGI(TAG,"FIR filter selected");
-    	#endif
-    #elif CONFIG_FILTER_IIR
-    	create_biquad();
-        ESP_LOGI(TAG,"IIR filter selected");
-        // Включи IIR код тук
-    #endif
+//	#if CONFIG_AUDIO_SOURCE_WM8805
+//	i2c_wm8805_init();
+//	#endif
 
 print_device_select();
 
 
+	/*
 #if CONFIG_ENABLE_ENCODER
 	 // Инициализация на енкодер
     init_encoder_interrupts();
@@ -367,9 +334,9 @@ print_device_select();
 #endif
 	//TODO
 	//init_encoder();	
-	
+*/	
 	main_task_handle = xTaskGetCurrentTaskHandle();
-    
+    	int32_t *data_fir = (int32_t *)heap_caps_malloc(BUFFER_SIZE * sizeof(int32_t), MALLOC_CAP_DMA);
    // int32_t *data = (int32_t *)malloc(BUFFER_SIZE * sizeof(int32_t));
     int32_t *data = (int32_t *)heap_caps_malloc(BUFFER_SIZE * sizeof(int32_t), MALLOC_CAP_DMA);
 	if (data == NULL) {
@@ -380,22 +347,34 @@ print_device_select();
     size_t bytes_read;
   //  size_t bytes_written;
     // Основен цикъл
+    
     ESP_LOGW(TAG, "Start AUDIO");
     ESP_LOGI("MEMORY", "Free internal SRAM: %d bytes", heap_caps_get_free_size(MALLOC_CAP_INTERNAL));
+    ESP_LOGW(TAG, "is_eq = %s", is_eq ? "true" : "false");
 while (1) {
+
         // Четене на данни от I2S (DIR9001)
         esp_err_t err = i2s_channel_read(rx_chan, data, BUFFER_SIZE * sizeof(int32_t), &bytes_read, portMAX_DELAY);
-    	if (err != ESP_OK){
-    		ESP_LOGE(TAG, "STOP I2S");
-    		return;
-    	}
-#if CONFIG_FILTER_NONE
-       #if CONFIG_PHASE_INVERT
+    	
+		
+/*       #if CONFIG_PHASE_INVERT
 		  process_phase(data, BUFFER_SIZE);
-		#endif
+	   #endif
+*/       
+		if(!is_eq){
+
+  	     if(!bypass_state){
+        	process_data_stereo(data, bytes_read / sizeof(int32_t), volume_s);
+        }
+        
+        if(phase_state){
+			process_phase(data, BUFFER_SIZE);
+		}
+		
 		i2s_channel_write(tx_chan, data, BUFFER_SIZE * sizeof(int32_t), &bytes_read, portMAX_DELAY);
-#elif CONFIG_FILTER_FIR
-       split_stereo_signal(data, BUFFER_SIZE/2 , fir_input_left, fir_input_right);
+	
+		}else{
+		split_stereo_signal(data, BUFFER_SIZE/2 , fir_input_left, fir_input_right);
  		
         // Изпращане на сигнал към задачите за обработка
         xTaskNotifyGive(left_task_handle);
@@ -406,43 +385,11 @@ while (1) {
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
  	    combine_stereo_signal(fir_output_left, fir_output_right, data_fir, BUFFER_SIZE/2 );
- 	    i2s_channel_write(tx_chan, data_fir, BUFFER_SIZE * sizeof(int32_t), &bytes_read, portMAX_DELAY);
+ 	   i2s_channel_write(tx_chan, data_fir, BUFFER_SIZE * sizeof(int32_t), &bytes_read, portMAX_DELAY);
         
-        // Включи FIR код тук
-#elif CONFIG_FILTER_IIR
-        // Използвай IIR филтър
-		process_data_stereo(data, bytes_read / sizeof(int32_t), volume_s);
-		#if CONFIG_PHASE_INVERT
-		  process_phase(data, BUFFER_SIZE);
-		#endif
-		i2s_channel_write(tx_chan, data, BUFFER_SIZE * sizeof(int32_t), &bytes_read, portMAX_DELAY);
+		}
         
-    #elif CONFIG_FILTER_FIR_IIR
-        // Включи комбинация от FIR и IIR код тук
-         process_data_stereo(data, bytes_read / sizeof(int32_t), volume_s);
-
-         split_stereo_signal(data, BUFFER_SIZE/2 , fir_input_left, fir_input_right);
- 		
-        // Изпращане на сигнал към задачите за обработка
-        xTaskNotifyGive(left_task_handle);
-        xTaskNotifyGive(right_task_handle);
-
-        // Изчакване задачите да приключат
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-
- 	    combine_stereo_signal(fir_output_left, fir_output_right, data_fir, BUFFER_SIZE/2 );
- 	    i2s_channel_write(tx_chan, data_fir, BUFFER_SIZE * sizeof(int32_t), &bytes_read, portMAX_DELAY);
-        
-    #endif    
-       /* 
-		memset(data, 0, sizeof(data));
-		memset(data_fir, 0, sizeof(data_fir));
-		memset(fir_input_left, 0, sizeof(fir_input_left));
-		memset(fir_input_right, 0, sizeof(fir_input_right));
-		memset(fir_output_left, 0, sizeof(fir_output_left));
-		memset(fir_output_right, 0, sizeof(fir_output_right));
-		*/
+  
 
     }
     

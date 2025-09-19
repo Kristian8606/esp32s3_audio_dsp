@@ -594,17 +594,10 @@ CONFIG_PARTITION_TABLE_MD5=y
 #
 # Device and Type Filter Configuration
 #
-# CONFIG_DEVICE_1 is not set
-CONFIG_DEVICE_2=y
 
 #
 # Filter Configuration
 #
-# CONFIG_FILTER_NONE is not set
-CONFIG_FILTER_FIR=y
-# CONFIG_FILTER_IIR is not set
-# CONFIG_FILTER_FIR_IIR is not set
-# end of Filter Configuration
 
 #
 # Audio Source Selection

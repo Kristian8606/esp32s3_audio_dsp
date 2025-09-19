@@ -1,5 +1,3 @@
-#ifndef FIR_FILTER_H
-#define FIR_FILTER_H
 
 #include <stddef.h>
 #include "esp_dsp.h"
@@ -11,7 +9,6 @@
 #define FIR_COEFFS_LEN 1024
 
 
-#if CONFIG_FILTER_FIR_IIR || CONFIG_FILTER_FIR
 // Константи за FIR филтъра
 
 
@@ -31,6 +28,4 @@ void fir_filter_init(void);
 void process_left(void *arg);
 void process_right(void *arg);
 
-#endif //#if CONFIG_FILTER_FIR_IIR || CONFIG_FILTER_FIR
 
-#endif // FIR_FILTER_H

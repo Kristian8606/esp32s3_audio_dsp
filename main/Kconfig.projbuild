@@ -1,36 +1,8 @@
 menu "Device and Type Filter Configuration"
 
-choice DEVICE_SELECTION
-    prompt "Select ESP32S3 Device"
-    default DEVICE_1
-
-config DEVICE_1
-    bool "ESP32S3 Device EQ"
-
-config DEVICE_2
-    bool "ESP32S3 Device DSP"
-
-endchoice
 
 menu "Filter Configuration"
 
-choice FILTER_TYPE
-    prompt "Select Filter Type"
-    default FILTER_NONE
-
-config FILTER_NONE
-    bool "Passthrough Mode"
-
-config FILTER_FIR
-    bool "FIR Filter"
-
-config FILTER_IIR
-    bool "IIR Filter"
-
-config FILTER_FIR_IIR
-    bool "FIR + IIR Filters"
-
-endchoice
 
 endmenu
 

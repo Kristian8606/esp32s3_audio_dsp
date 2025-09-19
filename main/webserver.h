@@ -1,5 +1,4 @@
-#ifndef WEB_SERVER_H
-#define WEB_SERVER_H
+
 
 #include "esp_err.h"
 #include "esp_wifi.h"
@@ -12,7 +11,9 @@
 
 #define MAX_COEFFS 1024
 #define MAX_POST_SIZE 25000  // 25 KB
-
+extern bool is_eq;
+extern bool bypass_state;
+extern bool phase_state;
 // Прототипи на функциите
 esp_err_t save_coefficients(void);
 esp_err_t load_coefficients(void);
@@ -30,8 +31,19 @@ extern char json_buffer[MAX_POST_SIZE]; // Буфер за JSON данните
 
 extern int32_t filter_count; 
 extern int type_filters[];
-extern double Hz[];
-extern double dB[];
-extern double Qd[];
 
-#endif // WEB_SERVER_H
+#define MAX_FILTERS 20
+
+extern float coeffs[MAX_COEFFS];     // Масив за коефициентите
+extern int32_t coeff_count;          // Брой на коефициентите
+extern int32_t filter_count;         // Брой на филтрите
+
+extern int type_filters[MAX_FILTERS];
+extern double Hz[MAX_FILTERS];
+extern double dB[MAX_FILTERS];
+extern double Qd[MAX_FILTERS];
+
+extern char buf[MAX_POST_SIZE];       // Буфер за заявката
+extern char json_buffer[MAX_POST_SIZE]; // Буфер за JSON данните
+
+

@@ -8,8 +8,8 @@
 static char *TAG = "WM8805";
 
 // I2C конфигурация
-#define I2C_MASTER_SCL_IO           CONFIG_WM8805_SCL_PIN       // GPIO за SCL
-#define I2C_MASTER_SDA_IO           CONFIG_WM8805_SDA_PIN       // GPIO за SDA
+#define I2C_MASTER_SCL_IO           11       // GPIO за SCL
+#define I2C_MASTER_SDA_IO           12       // GPIO за SDA
 #define I2C_MASTER_NUM              I2C_NUM_0                   // I2C порт
 #define I2C_MASTER_FREQ_HZ          100000 // I2C честота
 #define I2C_MASTER_TIMEOUT_MS       1000
@@ -18,7 +18,7 @@ static char *TAG = "WM8805";
 #define WM8805_ADDR                 0x3B 
 
 // GPIO за RESET
-#define WM8805_RESET_GPIO           CONFIG_WM8805_RESET_PIN // Промени според твоя хардуер
+#define WM8805_RESET_GPIO           10 // Промени според твоя хардуер
 
 // I2C хендъли
 static i2c_master_bus_handle_t bus_handle;

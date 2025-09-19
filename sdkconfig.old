@@ -594,14 +594,12 @@ CONFIG_PARTITION_TABLE_MD5=y
 #
 # Device and Type Filter Configuration
 #
-CONFIG_DEVICE_1=y
-# CONFIG_DEVICE_2 is not set
 
 #
 # Filter Configuration
 #
-CONFIG_FILTER_NONE=y
-# CONFIG_FILTER_FIR is not set
+# CONFIG_FILTER_NONE is not set
+CONFIG_FILTER_FIR=y
 # CONFIG_FILTER_IIR is not set
 # CONFIG_FILTER_FIR_IIR is not set
 # end of Filter Configuration

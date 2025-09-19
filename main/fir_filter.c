@@ -3,7 +3,6 @@
 #include "webserver.h"
 
 
-#if CONFIG_FILTER_FIR_IIR || CONFIG_FILTER_FIR
 // FIR коефициенти и линии на закъснение
 
 
@@ -46,4 +45,3 @@ void process_right(void *arg) {
     }
 }
 
-#endif
