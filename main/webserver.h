@@ -14,6 +14,10 @@
 extern bool is_eq;
 extern bool bypass_state;
 extern bool phase_state;
+
+esp_err_t save_device_type(bool val);
+esp_err_t load_device_type(bool *out);
+
 // Прототипи на функциите
 esp_err_t save_coefficients(void);
 esp_err_t load_coefficients(void);

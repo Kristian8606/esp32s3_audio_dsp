@@ -58,30 +58,65 @@ static Filter filters[MAX_FILTERS];
 bool bypass_state = false;
 bool phase_state = false;
 
-#define DEVICE_KEY "is_eq"
 
-/* --- NVS: device type (EQ / DSP) --- */
+
+/* --- Save --- */
 esp_err_t save_device_type(bool val) {
     nvs_handle_t h;
     esp_err_t err = nvs_open("storage", NVS_READWRITE, &h);
-    if (err != ESP_OK) return err;
-    err = nvs_set_u8(h, DEVICE_KEY, val ? 1 : 0);
-    if (err == ESP_OK) nvs_commit(h);
+    if (err != ESP_OK) {
+        ESP_LOGE("NVS", "open failed: %s", esp_err_to_name(err));
+        return err;
+    }
+
+    err = nvs_set_u8(h, "is_eq", val ? 1 : 0);
+    if (err != ESP_OK) {
+        ESP_LOGE("NVS", "set failed: %s", esp_err_to_name(err));
+        nvs_close(h);
+        return err;
+    }
+
+    err = nvs_commit(h);
+    if (err != ESP_OK) {
+        ESP_LOGE("NVS", "commit failed: %s", esp_err_to_name(err));
+    } else {
+        ESP_LOGI("NVS", "saved is_eq = %d", val);
+    }
+
     nvs_close(h);
     return err;
 }
 
+/* --- Load --- */
 esp_err_t load_device_type(bool *out) {
     if (!out) return ESP_ERR_INVALID_ARG;
+
     nvs_handle_t h;
     esp_err_t err = nvs_open("storage", NVS_READONLY, &h);
-    if (err != ESP_OK) return err;
+    if (err != ESP_OK) {
+        ESP_LOGE("NVS", "open failed: %s", esp_err_to_name(err));
+        return err;
+    }
+
     uint8_t v = 0;
-    err = nvs_get_u8(h, DEVICE_KEY, &v);
+    err = nvs_get_u8(h, "is_eq", &v);
+
+    if (err == ESP_ERR_NVS_NOT_FOUND) {
+        ESP_LOGW("NVS", "key not found, defaulting to false");
+        *out = false;
+        err = ESP_OK; // връщаме успех, но с default
+    } else if (err != ESP_OK) {
+        ESP_LOGE("NVS", "get failed: %s", esp_err_to_name(err));
+    } else {
+        *out = v ? true : false;
+        is_eq = *out;
+        ESP_LOGI("NVS", "loaded is_eq = %d", *out);
+    }
+
     nvs_close(h);
-    *out = v ? true : false;
     return err;
 }
+
 
 /* --- HTML pages --- */
 const char *html_landing_page =

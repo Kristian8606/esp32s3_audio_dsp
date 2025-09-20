@@ -51,7 +51,8 @@
 #include "wm8805.h"
 
 #define CLAMP_UNIT_RANGE(x) (fmaxf(-1.0f, fminf((x), 1.0f)))
-
+esp_err_t save_device_type(bool val);
+esp_err_t load_device_type(bool *out);
 
 i2s_chan_handle_t rx_chan, tx_chan;
 
@@ -308,9 +309,9 @@ void app_main(void) {
     gpio_init();
 	init_i2s();
 	fir_filter_init();
+	load_device_type(&is_eq);
 	
-	
-	if(!is_eq){
+	if(is_eq){
 	create_biquad();
 	}else{
 	// Създаване на задачи за обработка
@@ -350,7 +351,8 @@ print_device_select();
     
     ESP_LOGW(TAG, "Start AUDIO");
     ESP_LOGI("MEMORY", "Free internal SRAM: %d bytes", heap_caps_get_free_size(MALLOC_CAP_INTERNAL));
-    ESP_LOGW(TAG, "is_eq = %s", is_eq ? "true" : "false");
+    
+    ESP_LOGW("MAIN", "is_eq = %s", is_eq ? "true" : "false");
 while (1) {
 
         // Четене на данни от I2S (DIR9001)
@@ -361,7 +363,7 @@ while (1) {
 		  process_phase(data, BUFFER_SIZE);
 	   #endif
 */       
-		if(!is_eq){
+		if(is_eq){
 
   	     if(!bypass_state){
         	process_data_stereo(data, bytes_read / sizeof(int32_t), volume_s);
