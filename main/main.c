@@ -313,10 +313,12 @@ void app_main(void) {
 	
 	if(is_eq){
 	create_biquad();
+	vTaskDelay(500 / portTICK_PERIOD_MS);
 	}else{
 	// Създаване на задачи за обработка
     xTaskCreatePinnedToCore(process_left, "Left Task", 4096, NULL, 5, &left_task_handle, 0);
     xTaskCreatePinnedToCore(process_right, "Right Task", 4096, NULL, 5, &right_task_handle, 1);
+    vTaskDelay(200 / portTICK_PERIOD_MS);
 	}
 
 //	#if CONFIG_AUDIO_SOURCE_WM8805
